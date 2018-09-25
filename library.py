@@ -9,7 +9,6 @@ def getFastaFiles():
     fasta_files = glob.glob('./*.fasta')
     fasta_files += glob.glob('./*.fa')
     return fasta_files
-    #atest
 
 # Open a fasta file and extract headers and associated sequences
 
