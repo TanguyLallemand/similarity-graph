@@ -3,7 +3,7 @@
 # TODO: gerer le cut off??
 
 # For every file script will execute getFasta function permitting to extract header and associated sequence and return it as a dictionnary
-
+#is it agian ok
 # You can call script with -all to ask script to scan current directory and compute all fasta files
 # You can give in argument name of fasta file you want to compute
 
