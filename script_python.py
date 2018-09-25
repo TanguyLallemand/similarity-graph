@@ -68,11 +68,9 @@ for file in files_to_compute:
     dico_fasta = getFasta(file)
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta)
-    # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
     nodes = alignements[0]
     edges = alignements[1]
-    print(nodes)
-    print(edges)
+    # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
     displayAndSaveGraph()

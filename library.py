@@ -128,12 +128,20 @@ def createGraph(nodes, edges):
     nx.draw_networkx_edges(G, pos, with_labels=True, width=5,
                            edge_color="lightgreen", style="solid", alpha=0.5)
     # Legendes des noeuds et liens, taille et couleur controlées par font_size et font_color
-    #Permit to save score as labels for edges
-    labels = nx.get_edge_attributes(G,'weight')
+    # Permit to save score as labels for edges
+    labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(
         G, pos, font_size=9, alpha=0.5, font_color='black', edge_labels=labels)
     nx.draw_networkx_labels(G, pos, node_size=750,
                             font_size=9, font_color="grey", font_weight="bold")
+
+    # import matplotlib.pyplot as plt
+    # # Adjust the plot limits
+    # cut = 1.10
+    # xmax = cut * max(xx for xx, yy in pos.values())
+    # ymax = cut * max(yy for xx, yy in pos.values())
+    # plt.xlim(0, xmax)
+    # plt.ylim(0, ymax)
     # Return graph object constructed
     return G
 
@@ -144,7 +152,7 @@ def createGraph(nodes, edges):
 def displayAndSaveGraph():
     # Creation of a pdf graph
     import matplotlib.pyplot as plt
-    #Hide axis on output graph
+    # Hide axis on output graph
     plt.axis('off')
     # Ask user for pdf's name
     pdf_name = input(
@@ -174,13 +182,13 @@ def displayAndSaveGraph():
         my_path = os.path.join(my_path, pdf_name)
         # Try to save pdf
         try:
-            plt.savefig(pdf_name + '.pdf')
+            plt.savefig(pdf_name + '.pdf', bbox_inches='tight',pad_inches=0)
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     else:
         # A try block to try to save graph in pdf in maximum quality
         try:
-            plt.savefig(pdf_name + '.pdf')
+            plt.savefig(pdf_name + '.pdf', bbox_inches='tight',pad_inches=0)
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     # User can display immediatly graph if desired
