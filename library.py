@@ -77,53 +77,27 @@ def alignSequences(dico_fasta):
     """
     from Bio import pairwise2
     # Generate dictionnary in order to save results
-    alignements = []
+    edges = []
+    nodes = []
+    cut_off = 50
     # Select a sequences from dictionnary containning all sequences extracted from fasta files
     for key in dico_fasta.keys():
         # Select another sequences from dictionnary containning all sequences extracted from fasta files
         for keys2 in dico_fasta.keys():
             # Check if comparison is not already done and if sequences are different
-            if (keys2 + key) not in alignements and key != keys2:
+            if (keys2 + key) not in edges and key != keys2:
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
-                # add tuple to alignements
-                alignements.append((key, keys2, align))
+
+                if align > cut_off:
+                    # add tuple to alignements
+                    edges.append((key, keys2, round(align, 2)))
+                if key not in nodes:
+                    nodes.append(key)
+                if keys2 not in nodes:
+                    nodes.append(key)
     # Return dictionnary containning results
-    return alignements
-
-
-# Parsing alignements results and creation of objects used for construct a graph
-
-
-def parsingOfResults(alignements):
-    import numpy as np
-    # Intialisation of two lists to stock results of alignements
-    names_of_sequences = []
-    score_of_alignement = []
-    # Parsing of results
-    for key in alignements:
-        # Get names of sequences aligned
-        names_of_sequences.append(key)
-        # Get score from this alignement
-        #score_of_alignement.append(alignements[key])
-
-    # calcul of cut off
-    cut_of = (np.mean(score_of_alignement) +
-              0.05 * np.std(score_of_alignement))
-
-    # Construct objects containning all reliable alignement and their infos
-    list_of_edges = []
-    dictionnary_of_labels = {}
-    for name, score in alignements.items():
-        # If alignement seems to be reliable
-        if score > cut_of:
-            names = name.splitlines()
-            # Construct a tuple with names of sequences aligned
-            list_of_edges.append((names[0], names[1], round(score, 2)))
-            # Create a dictionnary of names and associated !rounded! score
-            dictionnary_of_labels[names[0], names[1]] = round(score, 2)
-
-    return [list_of_edges, names_of_sequences, dictionnary_of_labels]
+    return [nodes, edges]
 
 
 # Function to create a graph from reliable alignements results
@@ -134,29 +108,31 @@ def parsingOfResults(alignements):
 #   Source: https://python-graph-gallery.com/321-custom-networkx-graph-appearance/
 
 
-def createGraph(edges, names_of_sequences, dictionnary_of_labels):
+def createGraph(nodes, edges):
     import networkx as nx
     import numpy as np
     # Creation of a graph object
     G = nx.Graph()
     # Add nodes. Not necessary because add_edges implicitly add nodes but if a node is not link with other node he won't be display
-    G.add_nodes_from(names_of_sequences)
+    G.add_nodes_from(nodes)
     # Add links between nodes
-    G.add_weighted_edges_from(edges, weight='score')
+    G.add_weighted_edges_from(edges)
     # Get nodes positions
     pos = nx.spring_layout(G)
     # Draw nodes
     # This function can receive different parameter and setup as wanted nodes. It is possible to change node's color, add labels, transparency (with alpha parameter)
-    nx.draw_networkx_nodes(G, pos, node_size=75, node_color="skyblue",
+    nx.draw_networkx_nodes(G, pos, node_size=25, node_color="skyblue",
                            node_shape="s", alpha=0.5, linewidths=40, label=True)
     # Draw edges
     # This function can receive different parameter and setup as wanted edges. It is possible to change edge color, style and transparency (with alpha parameter)
     nx.draw_networkx_edges(G, pos, with_labels=True, width=5,
-                           edge_color="skyblue", style="solid", alphe=0.5)
+                           edge_color="lightgreen", style="solid", alpha=0.5)
     # Legendes des noeuds et liens, taille et couleur controlées par font_size et font_color
+    #Permit to save score as labels for edges
+    labels = nx.get_edge_attributes(G,'weight')
     nx.draw_networkx_edge_labels(
-        G, pos, edge_labels=dictionnary_of_labels, font_size=9, alpha=0.5, font_color='black')
-    nx.draw_networkx_labels(G, pos, node_size=1500,
+        G, pos, font_size=9, alpha=0.5, font_color='black', edge_labels=labels)
+    nx.draw_networkx_labels(G, pos, node_size=750,
                             font_size=9, font_color="grey", font_weight="bold")
     # Return graph object constructed
     return G
@@ -168,7 +144,8 @@ def createGraph(edges, names_of_sequences, dictionnary_of_labels):
 def displayAndSaveGraph():
     # Creation of a pdf graph
     import matplotlib.pyplot as plt
-
+    #Hide axis on output graph
+    plt.axis('off')
     # Ask user for pdf's name
     pdf_name = input(
         'Please give a name for output file without any extension \n')

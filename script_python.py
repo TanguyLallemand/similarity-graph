@@ -3,7 +3,7 @@
 # TODO: gerer le cut off??
 
 # For every file script will execute getFasta function permitting to extract header and associated sequence and return it as a dictionnary
-#is it agian ok
+
 # You can call script with -all to ask script to scan current directory and compute all fasta files
 # You can give in argument name of fasta file you want to compute
 
@@ -68,11 +68,12 @@ for file in files_to_compute:
     dico_fasta = getFasta(file)
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta)
-    # Parsing of results
-    results_parsed = parsingOfResults(alignements)
     # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
-    print(results_parsed[1])
-    G = createGraph(results_parsed[0], results_parsed[1], results_parsed[2])
+    nodes = alignements[0]
+    edges = alignements[1]
+    print(nodes)
+    print(edges)
+    G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
     displayAndSaveGraph()
 
