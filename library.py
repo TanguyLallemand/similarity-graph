@@ -77,18 +77,17 @@ def alignSequences(dico_fasta):
     """
     from Bio import pairwise2
     # Generate dictionnary in order to save results
-    alignements = {}
+    alignements = []
     # Select a sequences from dictionnary containning all sequences extracted from fasta files
     for key in dico_fasta.keys():
         # Select another sequences from dictionnary containning all sequences extracted from fasta files
         for keys2 in dico_fasta.keys():
             # Check if comparison is not already done and if sequences are different
             if (keys2 + key) not in alignements and key != keys2:
-                # Save names of sequences compared
-                comparison = key + keys2
-                # Construct a dictionnary where keys are compared sequences and values is score of comparison
-                alignements[comparison] = pairwise2.align.globalms(
+                align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
+                # add tuple to alignements
+                alignements.append((key, keys2, align))
     # Return dictionnary containning results
     return alignements
 
@@ -106,7 +105,7 @@ def parsingOfResults(alignements):
         # Get names of sequences aligned
         names_of_sequences.append(key)
         # Get score from this alignement
-        score_of_alignement.append(alignements[key])
+        #score_of_alignement.append(alignements[key])
 
     # calcul of cut off
     cut_of = (np.mean(score_of_alignement) +
