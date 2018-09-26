@@ -77,7 +77,7 @@ def alignSequences(dico_fasta):
     # Generate dictionnary in order to save results
     edges = []
     nodes = []
-    cut_off = 50
+    cut_off = 100
     # Select a sequences from dictionnary containning all sequences extracted from fasta files
     for key in dico_fasta.keys():
         # Select another sequences from dictionnary containning all sequences extracted from fasta files
@@ -107,6 +107,7 @@ def alignSequences(dico_fasta):
 
 
 def createGraph(nodes, edges):
+    from networkx.drawing.nx_agraph import graphviz_layout
     import networkx as nx
     import numpy as np
     # Creation of a graph object
@@ -115,31 +116,25 @@ def createGraph(nodes, edges):
     G.add_nodes_from(nodes)
     # Add links between nodes
     G.add_weighted_edges_from(edges)
-    # Get nodes positions
-    pos = nx.spring_layout(G)
+    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spacesself. Moreover, different layout programms can be used. We choosed neato
+    # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
+    pos = graphviz_layout(G, prog='neato')
     # Draw nodes
-    # This function can receive different parameter and setup as wanted nodes. It is possible to change node's color, add labels, transparency (with alpha parameter)
-    nx.draw_networkx_nodes(G, pos, node_size=25, node_color="skyblue",
+    # This function can receive different parameter and setup as wanted nodes. It is possible to change node's shape or color (using matplolib's color designation), add labels, transparency (with alpha parameter)
+    nx.draw_networkx_nodes(G, pos, node_size=25, node_color="teal",
                            node_shape="s", alpha=0.5, linewidths=40, label=True)
     # Draw edges
     # This function can receive different parameter and setup as wanted edges. It is possible to change edge color, style and transparency (with alpha parameter)
     nx.draw_networkx_edges(G, pos, with_labels=True, width=5,
-                           edge_color="lightgreen", style="solid", alpha=0.5)
+                           edge_color="silver", style="solid", alpha=0.5)
     # Legendes des noeuds et liens, taille et couleur controlées par font_size et font_color
     # Permit to save score as labels for edges
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(
         G, pos, font_size=9, alpha=0.5, font_color='black', edge_labels=labels)
-    nx.draw_networkx_labels(G, pos, node_size=750,
+    nx.draw_networkx_labels(G, pos, node_size=100,
                             font_size=9, font_color="grey", font_weight="bold")
 
-    # import matplotlib.pyplot as plt
-    # # Adjust the plot limits
-    # cut = 1.10
-    # xmax = cut * max(xx for xx, yy in pos.values())
-    # ymax = cut * max(yy for xx, yy in pos.values())
-    # plt.xlim(0, xmax)
-    # plt.ylim(0, ymax)
     # Return graph object constructed
     return G
 
@@ -150,14 +145,26 @@ def createGraph(nodes, edges):
 def displayAndSaveGraph():
     # Creation of a pdf graph
     import matplotlib.pyplot as plt
+    #Preparation of graph
+
     # Hide axis on output graph
     plt.axis('off')
     # Ask user for pdf's name
-    pdf_name = input(
-        'Please give a name for output file without any extension \n')
+    name = input(
+        'Please give a name for output file \n')
+    #Add extension for output file
+    name = name + '.png'
+    #Get graph configuration
+    # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
+    #Get resolution
+    dpi = plt.gcf().get_dpi()
+    #Get height and width
+    height, width = plt.gcf().get_size_inches()
+    #Double height and width of graph
+    plt.gcf().set_size_inches(height*2, width*2)
     # Ask user for a directory to save pdf
     directory_choice = input(
-        'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(pdf_name))
+        'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
     if directory_choice or directory_choice == 'n':
         # Import errno to handle with errors during directory creation
         from errno import EEXIST
@@ -177,21 +184,24 @@ def displayAndSaveGraph():
                 raise
         # If no exceptions are raised pdf is saved in new subdirectory
         # First path is concatenate with pdf's name wanted
-        my_path = os.path.join(my_path, pdf_name)
+        my_path = os.path.join(my_path, name)
         # Try to save pdf
         try:
-            plt.savefig(pdf_name + '.pdf', bbox_inches='tight', pad_inches=0)
+            plt.savefig(name, format="png",
+                        bbox_inches="tight", bbox_extra_artists=[])
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     else:
         # A try block to try to save graph in pdf in maximum quality
         try:
-            plt.savefig(pdf_name + '.pdf', bbox_inches='tight', pad_inches=0)
+            #plt.savefig(name + '.pdf', bbox_inches='tight', pad_inches=0)
+            plt.savefig(name, format="png",
+                        bbox_inches="tight", bbox_extra_artists=[])
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     # User can display immediatly graph if desired
     choice = input('Graph {} saved sucessfully \nDo you want to display graph? (y|n) \n'.format(
-        pdf_name + '.pdf'))
+        name + '.pdf'))
     if choice == 'y':
         print('Script will exit when display window is close')
         plt.show()
