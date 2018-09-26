@@ -21,7 +21,7 @@ dico_fasta = {}
 if arg_passed:
     import re
     # If -all argument is detected, this script will search in current directory all fasta files
-    if arg_passed[0] == '-a':
+    if re.search('-a', str(arg_passed)):
         # Search for all fasta file in current directory
         files_to_compute = getFastaFiles()
         if files_to_compute:
@@ -39,7 +39,7 @@ if arg_passed:
 
     # Search for a fasta filename passed as script argument
     # Check if argument passed is a fasta filename
-    if re.search('.fasta', arg_passed[0]) or re.search('.fa', arg_passed[0]):
+    if re.search('.fasta', str(arg_passed)) or re.search('.fa', str(arg_passed)):
         # Save file name as a list
         files_to_compute = [arg_passed[0]]
 
@@ -75,6 +75,7 @@ for file in files_to_compute:
     dico_fasta = getFasta(file)
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta)
+    #Parsing of results
     nodes = alignements[0]
     edges = alignements[1]
     # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels

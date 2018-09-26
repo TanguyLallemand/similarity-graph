@@ -152,12 +152,10 @@ def displayAndSaveGraph():
     # Ask user for pdf's name
     name = input(
         'Please give a name for output file \n')
-    # Add extension for output file
+    # Add extension for output file. Prefer pdf for keep vectorial qualitu
     name = name + '.pdf'
     # Get graph configuration
     # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
-    # Get resolution
-    dpi = plt.gcf().get_dpi()
     # Get height and width
     height, width = plt.gcf().get_size_inches()
     # Double height and width of graph
