@@ -205,3 +205,8 @@ def displayAndSaveGraph():
     if choice == 'y':
         print('Script will exit when display window is close')
         plt.show()
+        #Reset graph in case of a second graph coming because of -a argument
+        plt.gcf().clear()
+    else:
+        #Reset graph in case of a second graph coming because of -a argument
+        plt.gcf().clear()
