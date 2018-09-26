@@ -1,5 +1,3 @@
-
-
 # Scan current directory searching for fasta files
 def getFastaFiles():
     # Import glob module specialized in searching files following patterns.
@@ -182,13 +180,13 @@ def displayAndSaveGraph():
         my_path = os.path.join(my_path, pdf_name)
         # Try to save pdf
         try:
-            plt.savefig(pdf_name + '.pdf', bbox_inches='tight',pad_inches=0)
+            plt.savefig(pdf_name + '.pdf', bbox_inches='tight', pad_inches=0)
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     else:
         # A try block to try to save graph in pdf in maximum quality
         try:
-            plt.savefig(pdf_name + '.pdf', bbox_inches='tight',pad_inches=0)
+            plt.savefig(pdf_name + '.pdf', bbox_inches='tight', pad_inches=0)
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
     # User can display immediatly graph if desired
