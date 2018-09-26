@@ -145,23 +145,23 @@ def createGraph(nodes, edges):
 def displayAndSaveGraph():
     # Creation of a pdf graph
     import matplotlib.pyplot as plt
-    #Preparation of graph
+    # Preparation of graph
 
     # Hide axis on output graph
     plt.axis('off')
     # Ask user for pdf's name
     name = input(
         'Please give a name for output file \n')
-    #Add extension for output file
-    name = name + '.png'
-    #Get graph configuration
+    # Add extension for output file
+    name = name + '.pdf'
+    # Get graph configuration
     # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
-    #Get resolution
+    # Get resolution
     dpi = plt.gcf().get_dpi()
-    #Get height and width
+    # Get height and width
     height, width = plt.gcf().get_size_inches()
-    #Double height and width of graph
-    plt.gcf().set_size_inches(height*2, width*2)
+    # Double height and width of graph
+    plt.gcf().set_size_inches(height * 2, width * 2)
     # Ask user for a directory to save pdf
     directory_choice = input(
         'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
@@ -187,7 +187,7 @@ def displayAndSaveGraph():
         my_path = os.path.join(my_path, name)
         # Try to save pdf
         try:
-            plt.savefig(name, format="png",
+            plt.savefig(name,
                         bbox_inches="tight", bbox_extra_artists=[])
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
@@ -195,7 +195,7 @@ def displayAndSaveGraph():
         # A try block to try to save graph in pdf in maximum quality
         try:
             #plt.savefig(name + '.pdf', bbox_inches='tight', pad_inches=0)
-            plt.savefig(name, format="png",
+            plt.savefig(name,
                         bbox_inches="tight", bbox_extra_artists=[])
         except:
             print('Can\'t save graph \nPlease correct name of pdf')
@@ -205,8 +205,8 @@ def displayAndSaveGraph():
     if choice == 'y':
         print('Script will exit when display window is close')
         plt.show()
-        #Reset graph in case of a second graph coming because of -a argument
+        # Reset graph in case of a second graph coming because of -a argument
         plt.gcf().clear()
     else:
-        #Reset graph in case of a second graph coming because of -a argument
+        # Reset graph in case of a second graph coming because of -a argument
         plt.gcf().clear()
