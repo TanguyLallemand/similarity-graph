@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 # To get list of possible arguments and their effects please call script wit -h or --help argument
-
+# TODO: ameliorer le rendu de l'alignemetn
 
 # Import library containning all functions develloped for this project
 from library import *
