@@ -4,11 +4,11 @@
 
 
 # List of possibles arguments and their effects:
-# -a to ask script to scan current directory and compute all fasta files
+# -a or -all to ask script to scan current directory and compute all fasta files
 # You can give as argument name of a fasta file that you want to compute
 # -s to save alignements in a text file
-# -c to give a cut off # TODO: not implemented
-# TODO: gerer un arg -help?
+# -c to give a cut off
+# -h or --help to display a help message
 
 from library import *
 # Permit to access to arguments passed to python script
@@ -22,8 +22,10 @@ dico_fasta = {}
 # If arg_passed is not empty (and have -all or filename) enter in this block
 if arg_passed:
     import re
+    if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
+        displayHelp()
     # If -all argument is detected, this script will search in current directory all fasta files
-    if re.search('-a', str(arg_passed)):
+    if re.search('-a', str(arg_passed)) or re.search('--all', str(arg_passed)):
         # Search for all fasta file in current directory
         files_to_compute = getFastaFiles()
         if files_to_compute:
@@ -33,11 +35,6 @@ if arg_passed:
             for files in files_to_compute:
                 print(files)
                 print('\n')
-        else:
-            files_to_compute = input(
-                'No fasta file found in this directory, please give a path to a fasta\n')
-            print(files_to_compute)
-            # TODO: not functionnal, dont accept any relative path...
 
     # Search for a fasta filename passed as script argument
     # Check if argument passed is a fasta filename

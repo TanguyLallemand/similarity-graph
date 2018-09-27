@@ -44,6 +44,24 @@ def getFasta(file):
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
 
+    # TODO: Maybe use itertool to generate all possible combination? permit to del conditionnals
+
+    # import itertools, sys
+    # from Bio import SeqIO, pairwise2
+    #
+    # fasta = sys.argv[1]
+    # with open(fasta, 'r') as f:
+    #     seqs = []
+    #     for line in f:
+    #         if not line.startswith('>'):
+    #             seqs.append(line.strip())
+    #
+    # combos = itertools.combinations(seqs, 2)
+    #
+    # for k,v in combos:
+    #     aln = pairwise2.align.localxx(k,v)
+    #     print pairwise2.format_alignment(*aln[0])
+
     # Import pairwise, permitting alignement from Biopython package.
     # Understanding functions of this package
     #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
@@ -70,7 +88,14 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     # Generate dictionnary in order to save results
     edges = []
     nodes = []
-    cut_off = 100
+    # Check if -t has been passed
+    if re.search('-t', str(arg_passed)):
+        # get cut off passed by getting argument just after -t and transtype it into float
+        cut_off = float(arg_passed[arg_passed.index('-t') + 1])
+    else:
+        # Give a default value for cut of
+        cut_off = 100
+    print('Script will select alignments with a score above: ' + str(cut_off))
     # Select a sequence from dictionnary
     for key in dico_fasta.keys():
         # Select linked sequence
@@ -81,7 +106,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
                 # If user ask for save alignements
-                if re.search('-s', str(arg_passed)):
+                if re.search('-s', str(arg_passed)) or re.search('--save', str(arg_passed)):
                     # Determine name of output file
                     name_of_output = 'output_' + \
                         os.path.splitext(name_of_file)[0] + '.txt'
@@ -119,6 +144,13 @@ def createGraph(nodes, edges):
     G.add_nodes_from(nodes)
     # Add links between nodes
     G.add_weighted_edges_from(edges)
+    # TODO: determiner ce qui est considerer comme fort ou pas
+    # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
+    strong_edge = [(u, v)
+                   for (u, v, d) in G.edges(data=True) if d['weight'] > 500]
+    weak_edge = [(u, v)
+                 for (u, v, d) in G.edges(data=True) if d['weight'] <= 459]
+
     # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spacesself. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This is layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling but non adapted to large network.
     # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
     pos = graphviz_layout(G, prog='neato')
@@ -128,15 +160,18 @@ def createGraph(nodes, edges):
                            node_shape="s", alpha=0.5, linewidths=40, label=True)
     # Draw edges
     # This function can receive different parameter and setup as wanted edges. It is possible to change edge color, style and transparency (with alpha parameter)
-    nx.draw_networkx_edges(G, pos, with_labels=True, width=5,
-                           edge_color="silver", style="solid", alpha=0.5)
+    nx.draw_networkx_edges(G, pos, edgelist=strong_edge, with_labels=True, width=5,
+                           edge_color="silver", style="solid", alpha=0.8)
+    nx.draw_networkx_edges(G, pos, edgelist=weak_edge, with_labels=True, width=5,
+                           edge_color="silver", style="dashed", alpha=0.5)
     # Legendes des noeuds et liens, taille et couleur controlées par font_size et font_color
     # Permit to save score as labels for edges
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(
         G, pos, font_size=9, alpha=0.5, font_color='black', edge_labels=labels)
+    # Write names of sequences
     nx.draw_networkx_labels(G, pos, node_size=100,
-                            font_size=9, font_color="grey", font_weight="bold")
+                            font_size=6, font_color="grey", font_weight="bold")
 
     # Return graph object constructed
     return G
@@ -211,3 +246,12 @@ def displayAndSaveGraph():
     else:
         # Reset graph in case of a second graph coming because of -a argument
         plt.gcf().clear()
+
+# Display help if user ask for it
+
+
+def displayHelp():
+    wait = input(
+        'This script was designed to construct a graph a similarity between different DNA sequences\n ')
+    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to scan current directory and compute all fasta files\n You can give as argument name of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -h or --help to display a help message\n')
+    exit()
