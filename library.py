@@ -1,4 +1,10 @@
-# Scan current directory searching for fasta files
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Author: Tanguy Lallemand M2 BB
+# Library of functions for script_python.py
+
+
+# This function scan current directory searching for fasta files
 def getFastaFiles():
     # Import glob module specialized in searching files following patterns.
     # Source: https://docs.python.org/2/library/glob.html
@@ -6,21 +12,22 @@ def getFastaFiles():
     # Search for files ending with fasta extensions
     fasta_files = glob.glob('./*.fasta')
     fasta_files += glob.glob('./*.fa')
+    # Return results
     return fasta_files
 
-# Open a fasta file and extract headers and associated sequences
+# This function open a fasta file and extract headers and associated sequences
 
 
 def getFasta(file):
-    # Open a file given in argument in mode read only
+    # Open in read only a file given in argument
     nameHandle = open(file, 'r')
-    # Generate a dictionnary that will contain all data from file
+    # Generate a dictionnary that will contain all datas extracted from file
     fastas = {}
     # Read line by line file opened
     for line in nameHandle:
-        # Check if > character exist to check if line is a header or a sequence
+        # Check if '>' character is present permitting to check if line is a header or a sequence
         if line[0] == '>':
-            # Get header
+            # Get first line of header
             header = line[1:]
             # Intialize a new entry in dictionnary with header as key and a empty value
             fastas[header] = ''
@@ -29,14 +36,13 @@ def getFasta(file):
             fastas[header] += line
     # Close file
     nameHandle.close()
-    # Return a dictionnary containing all data from fasta file
+    # Return a dictionnary containing all datas from fasta file
     return(fastas)
 
-# Function to align sequences by pair using pairwise and get score of this alignements
-# return dictionnary containning names of sequences aligned and associated score
+# This function align sequences by pair using pairwise 2 and get score of this alignement. It will return a dictionnary containning names of sequences aligned and associated score
 
 
-def alignSequences(dico_fasta):
+def alignSequences(dico_fasta, arg_passed, name_of_file):
 
     # Import pairwise, permitting alignement from Biopython package.
     # Understanding functions of this package
@@ -47,28 +53,42 @@ def alignSequences(dico_fasta):
     #
     # Pairwise permit to perform global or local alignement. For this script we choose to work using global alignements. In fact, we want to know if sequences are globally similar. Local alignements are mostly used to search for subsequences similar between to sequences.
     # So for this script we use global alignement. We need to configure function to perform alignement as wanted.
-    # To do it we can give two coded parameters to alignement. First parameter setup matches and mismatches.
+    # To do it we can give two coded parameters:
+    #   - first parameter set up matches and mismatches.
+    #   - second set up gaps
     # For this script we select a match score for identical chars else it is a mismatch score (m code) and same gap penalties for both sequences (s code too)
-    # For calculating score, we can add supplementary parameters.
+    # For score, we can add supplementary parameters.
     # Match score: 2
     # Mismatch score: -1
     # Opening Gap: -0.5
     # Extending Gap: -0.1
 
-
     from Bio import pairwise2
+    import re
+    import os
+    from Bio.pairwise2 import format_alignment
     # Generate dictionnary in order to save results
     edges = []
     nodes = []
     cut_off = 100
-    # Select a sequences from dictionnary containning all sequences extracted from fasta files
+    # Select a sequence from dictionnary
     for key in dico_fasta.keys():
-        # Select another sequences from dictionnary containning all sequences extracted from fasta files
+        # Select linked sequence
         for keys2 in dico_fasta.keys():
             # Check if comparison is not already done and if sequences are different
             if (keys2 + key) not in edges and key != keys2:
+                # Perform alignement
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
+                # If user ask for save alignements
+                if re.search('-s', str(arg_passed)):
+                    # Determine name of output file
+                    name_of_output = 'output_' + \
+                        os.path.splitext(name_of_file)[0] + '.txt'
+                    # Create a output file. With permit to automatically handle file close
+                    with open(name_of_output, 'w') as output:
+                        for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
+                            output.write(format_alignment(*a))
 
                 if align > cut_off:
                     # add tuple to alignements
@@ -99,7 +119,7 @@ def createGraph(nodes, edges):
     G.add_nodes_from(nodes)
     # Add links between nodes
     G.add_weighted_edges_from(edges)
-    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spacesself. Moreover, different layout programms can be used. We choosed neato
+    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spacesself. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This is layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling but non adapted to large network.
     # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
     pos = graphviz_layout(G, prog='neato')
     # Draw nodes

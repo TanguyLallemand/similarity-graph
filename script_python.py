@@ -6,7 +6,9 @@
 # List of possibles arguments and their effects:
 # -a to ask script to scan current directory and compute all fasta files
 # You can give as argument name of a fasta file that you want to compute
+# -s to save alignements in a text file
 # -c to give a cut off # TODO: not implemented
+# TODO: gerer un arg -help?
 
 from library import *
 # Permit to access to arguments passed to python script
@@ -73,8 +75,9 @@ if dico_fasta == {} and not files_to_compute:
 for file in files_to_compute:
     # Get data from fasta file(s)
     dico_fasta = getFasta(file)
+    # TODO: gerer ici le parsing de l'arg -c et le passer a la fonction
     # Alignement of sequences from fasta file
-    alignements = alignSequences(dico_fasta)
+    alignements = alignSequences(dico_fasta, arg_passed, file)
     #Parsing of results
     nodes = alignements[0]
     edges = alignements[1]
