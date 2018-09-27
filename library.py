@@ -196,33 +196,9 @@ def displayAndSaveGraph(arg_passed, name_of_file):
     plt.gcf().set_size_inches(height * 2, width * 2)
     if re.search('-d', str(arg_passed)) or re.search('--default', str(arg_passed)):
         directory_choice = 'output_figures'
-        name = os.path.splitext(name_of_file)[0] +'.pdf'
-        # Import errno to handle with errors during directory creation
-        from errno import EEXIST
-        import os
-        # Get current path and add subdirectory name
-        # Figures out the absolute path for you in case your working directory moves around.
-        my_path = os.getcwd() + '/' + directory_choice
-        # Try to create a new directory
-        # Source: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory/11373653#11373653
-        try:
-            # Make a directory following path given
-            os.mkdir(my_path)
-        except OSError as exc:
-            if exc.errno == EEXIST:  # and my_path.isdir(my_path)
-                pass
-            else:
-                raise
-        # If no exceptions are raised pdf is saved in new subdirectory
-        # First path is concatenate with pdf's name wanted
-        my_path = os.path.join(my_path, name)
-        # Try to save pdf
-        try:
-            plt.savefig(my_path,
-                        bbox_inches="tight", bbox_extra_artists=[])
-        except:
-            print('Can\'t save graph \n')
-
+        base = os.path.basename(name_of_file)
+        name = os.path.splitext(base)[0] + '.pdf'
+        my_path = createDirectoryAndOutputGraph(directory_choice, name)
     else:
         # Ask user for pdf's name
         name = input(
@@ -232,43 +208,18 @@ def displayAndSaveGraph(arg_passed, name_of_file):
         # Ask user for a directory to save pdf
         directory_choice = input(
             'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
-        if directory_choice or directory_choice == 'n':
-            # Import errno to handle with errors during directory creation
-            from errno import EEXIST
-            import os
-            # Get current path and add subdirectory name
-            # Figures out the absolute path for you in case your working directory moves around.
-            my_path = os.getcwd() + '/' + directory_choice
-            # Try to create a new directory
-            # Source: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory/11373653#11373653
-            try:
-                # Make a directory following path given
-                os.mkdir(my_path)
-            except OSError as exc:
-                if exc.errno == EEXIST:  # and my_path.isdir(my_path)
-                    pass
-                else:
-                    raise
-            # If no exceptions are raised pdf is saved in new subdirectory
-            # First path is concatenate with pdf's name wanted
-            my_path = os.path.join(my_path, name)
-            # Try to save pdf
-            try:
-                plt.savefig(my_path,
-                            bbox_inches="tight", bbox_extra_artists=[])
-            except:
-                print('Can\'t save graph \nPlease correct name of pdf')
+        if directory_choice:
+            my_path = createDirectoryAndOutputGraph(directory_choice, name)
         else:
             # A try block to try to save graph in pdf in maximum quality
             try:
-                #plt.savefig(name + '.pdf', bbox_inches='tight', pad_inches=0)
                 plt.savefig(name,
                             bbox_inches="tight", bbox_extra_artists=[])
             except:
                 print('Can\'t save graph \nPlease correct name of pdf')
     # User can display immediatly graph if desired
-    choice = input('Graph {} saved sucessfully \nDo you want to display graph? (y|n) \n'.format(
-        name))
+    choice = input('Graph {} saved sucessfully in {} \nDo you want to display graph? (y|n) \n'.format(
+        name, my_path))
     if choice == 'y':
         print('Script will exit when display window is close')
         plt.show()
@@ -277,6 +228,41 @@ def displayAndSaveGraph(arg_passed, name_of_file):
     else:
         # Reset graph in case of a second graph coming because of -a argument
         plt.gcf().clear()
+
+
+# This function permit to create a directory and save output pdf file in it
+
+
+def createDirectoryAndOutputGraph(directory_choice, name):
+    import matplotlib.pyplot as plt
+    import re
+    import os
+    # Import errno to handle with errors during directory creation
+    from errno import EEXIST
+    import os
+    # Get current path and add subdirectory name
+    # Figures out the absolute path for you in case your working directory moves around.
+    my_path = os.getcwd() + '/' + directory_choice
+    # Try to create a new directory
+    # Source: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory/11373653#11373653
+    try:
+        # Make a directory following path given
+        os.mkdir(my_path)
+    except OSError as exc:
+        if exc.errno == EEXIST:  # and my_path.isdir(my_path)
+            pass
+        else:
+            raise
+    # If no exceptions are raised pdf is saved in new subdirectory
+    # First path is concatenate with pdf's name wanted
+    my_path = os.path.join(my_path, name)
+    # Try to save pdf
+    try:
+        plt.savefig(my_path,
+                    bbox_inches="tight", bbox_extra_artists=[])
+    except:
+        print('Can\'t save graph \n')
+    return my_path
 
 # Display help if user ask for it
 
