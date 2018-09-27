@@ -81,6 +81,6 @@ for file in files_to_compute:
     # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
-    displayAndSaveGraph()
+    displayAndSaveGraph(arg_passed, file)
 
 print('Job done, script will exit')

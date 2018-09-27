@@ -89,9 +89,9 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     edges = []
     nodes = []
     # Check if -t has been passed
-    if re.search('-t', str(arg_passed)):
-        # get cut off passed by getting argument just after -t and transtype it into float
-        cut_off = float(arg_passed[arg_passed.index('-t') + 1])
+    if re.search('-c', str(arg_passed)) or re.search('--cut_off', str(arg_passed)):
+        # get cut off passed by getting argument just after -c and transtype it into float
+        cut_off = float(arg_passed[arg_passed.index('-c') + 1])
     else:
         # Give a default value for cut of
         cut_off = 100
@@ -180,28 +180,23 @@ def createGraph(nodes, edges):
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
 
 
-def displayAndSaveGraph():
-    # Creation of a pdf graph
+def displayAndSaveGraph(arg_passed, name_of_file):
     import matplotlib.pyplot as plt
-    # Preparation of graph
+    import re
+    import os
 
     # Hide axis on output graph
     plt.axis('off')
-    # Ask user for pdf's name
-    name = input(
-        'Please give a name for output file \n')
-    # Add extension for output file. Prefer pdf for keep vectorial qualitu
-    name = name + '.pdf'
+
     # Get graph configuration
     # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
     # Get height and width
     height, width = plt.gcf().get_size_inches()
     # Double height and width of graph
     plt.gcf().set_size_inches(height * 2, width * 2)
-    # Ask user for a directory to save pdf
-    directory_choice = input(
-        'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
-    if directory_choice or directory_choice == 'n':
+    if re.search('-d', str(arg_passed)) or re.search('--default', str(arg_passed)):
+        directory_choice = 'output_figures'
+        name = os.path.splitext(name_of_file)[0] +'.pdf'
         # Import errno to handle with errors during directory creation
         from errno import EEXIST
         import os
@@ -223,21 +218,57 @@ def displayAndSaveGraph():
         my_path = os.path.join(my_path, name)
         # Try to save pdf
         try:
-            plt.savefig(name,
+            plt.savefig(my_path,
                         bbox_inches="tight", bbox_extra_artists=[])
         except:
-            print('Can\'t save graph \nPlease correct name of pdf')
+            print('Can\'t save graph \n')
+
     else:
-        # A try block to try to save graph in pdf in maximum quality
-        try:
-            #plt.savefig(name + '.pdf', bbox_inches='tight', pad_inches=0)
-            plt.savefig(name,
-                        bbox_inches="tight", bbox_extra_artists=[])
-        except:
-            print('Can\'t save graph \nPlease correct name of pdf')
+        # Ask user for pdf's name
+        name = input(
+            'Please give a name for output file \n')
+        # Add extension for output file. Prefer pdf for keep vectorial qualitu
+        name = name + '.pdf'
+        # Ask user for a directory to save pdf
+        directory_choice = input(
+            'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
+        if directory_choice or directory_choice == 'n':
+            # Import errno to handle with errors during directory creation
+            from errno import EEXIST
+            import os
+            # Get current path and add subdirectory name
+            # Figures out the absolute path for you in case your working directory moves around.
+            my_path = os.getcwd() + '/' + directory_choice
+            # Try to create a new directory
+            # Source: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory/11373653#11373653
+            try:
+                # Make a directory following path given
+                os.mkdir(my_path)
+            except OSError as exc:
+                if exc.errno == EEXIST:  # and my_path.isdir(my_path)
+                    pass
+                else:
+                    raise
+            # If no exceptions are raised pdf is saved in new subdirectory
+            # First path is concatenate with pdf's name wanted
+            my_path = os.path.join(my_path, name)
+            # Try to save pdf
+            try:
+                plt.savefig(my_path,
+                            bbox_inches="tight", bbox_extra_artists=[])
+            except:
+                print('Can\'t save graph \nPlease correct name of pdf')
+        else:
+            # A try block to try to save graph in pdf in maximum quality
+            try:
+                #plt.savefig(name + '.pdf', bbox_inches='tight', pad_inches=0)
+                plt.savefig(name,
+                            bbox_inches="tight", bbox_extra_artists=[])
+            except:
+                print('Can\'t save graph \nPlease correct name of pdf')
     # User can display immediatly graph if desired
     choice = input('Graph {} saved sucessfully \nDo you want to display graph? (y|n) \n'.format(
-        name + '.pdf'))
+        name))
     if choice == 'y':
         print('Script will exit when display window is close')
         plt.show()
@@ -249,9 +280,9 @@ def displayAndSaveGraph():
 
 # Display help if user ask for it
 
-
+# TODO: to be continued
 def displayHelp():
     wait = input(
-        'This script was designed to construct a graph a similarity between different DNA sequences\n ')
-    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to scan current directory and compute all fasta files\n You can give as argument name of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -h or --help to display a help message\n')
+        'This script was designed to construct a graph a similarity between different DNA sequences\n')
+    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to get all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or subdirectory\sequences.fasta\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let script choose for output file and directory names\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
     exit()
