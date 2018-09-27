@@ -72,15 +72,15 @@ if dico_fasta == {} and not files_to_compute:
 for file in files_to_compute:
     # Get data from fasta file(s)
     dico_fasta = getFasta(file)
-    # TODO: gerer ici le parsing de l'arg -c et le passer a la fonction
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta, arg_passed, file)
     #Parsing of results
     nodes = alignements[0]
     edges = alignements[1]
+    cut_off = alignements[2]
     # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
-    displayAndSaveGraph(arg_passed, file)
+    displayAndSaveGraph(arg_passed, file, cut_off)
 
 print('Job done, script will exit')

@@ -107,9 +107,17 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
                 # If user ask for save alignements
                 if re.search('-s', str(arg_passed)) or re.search('--save', str(arg_passed)):
+                    try:
+                        # Make a directory following path given
+                        os.mkdir('output_sequences')
+                    except:
+                        pass
                     # Determine name of output file
-                    name_of_output = 'output_' + \
-                        os.path.splitext(name_of_file)[0] + '.txt'
+                    base = os.path.basename(name_of_file)
+                    # name without extension
+                    name = os.path.splitext(base)[0]
+                    name_of_output = 'output_sequences/output_' + \
+                        os.path.splitext(name)[0] + '.txt'
                     # Create a output file. With permit to automatically handle file close
                     with open(name_of_output, 'w') as output:
                         for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
@@ -123,7 +131,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 if keys2 not in nodes:
                     nodes.append(key)
     # Return dictionnary containning results
-    return [nodes, edges]
+    return [nodes, edges, cut_off]
 
 
 # Function to create a graph from reliable alignements results
@@ -180,13 +188,15 @@ def createGraph(nodes, edges):
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
 
 
-def displayAndSaveGraph(arg_passed, name_of_file):
+def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
     import matplotlib.pyplot as plt
     import re
     import os
 
     # Hide axis on output graph
     plt.axis('off')
+    plt.title('Graph of similarity of sequences from ' + name_of_file +
+              ' aligned with Pairwise 2 and filtered with a cut off of: ' + str(cut_off))
 
     # Get graph configuration
     # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
@@ -195,8 +205,11 @@ def displayAndSaveGraph(arg_passed, name_of_file):
     # Double height and width of graph
     plt.gcf().set_size_inches(height * 2, width * 2)
     if re.search('-d', str(arg_passed)) or re.search('--default', str(arg_passed)):
+        # Give a default directory name
         directory_choice = 'output_figures'
+        # Get basename
         base = os.path.basename(name_of_file)
+        # Change extension by pdf
         name = os.path.splitext(base)[0] + '.pdf'
         my_path = createDirectoryAndOutputGraph(directory_choice, name)
     else:
@@ -213,6 +226,7 @@ def displayAndSaveGraph(arg_passed, name_of_file):
         else:
             # A try block to try to save graph in pdf in maximum quality
             try:
+                my_path = os.getcwd() + '/' + directory_choice
                 plt.savefig(name,
                             bbox_inches="tight", bbox_extra_artists=[])
             except:
@@ -249,7 +263,7 @@ def createDirectoryAndOutputGraph(directory_choice, name):
         # Make a directory following path given
         os.mkdir(my_path)
     except OSError as exc:
-        if exc.errno == EEXIST:  # and my_path.isdir(my_path)
+        if exc.errno == EEXIST:
             pass
         else:
             raise
@@ -266,7 +280,7 @@ def createDirectoryAndOutputGraph(directory_choice, name):
 
 # Display help if user ask for it
 
-# TODO: to be continued
+
 def displayHelp():
     wait = input(
         'This script was designed to construct a graph a similarity between different DNA sequences\n')
