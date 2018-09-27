@@ -1,15 +1,10 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
+# To get list of possible arguments and their effects please call script wit -h or --help argument
 
 
-# List of possibles arguments and their effects:
-# -a or -all to ask script to scan current directory and compute all fasta files
-# You can give as argument name of a fasta file that you want to compute
-# -s to save alignements in a text file
-# -c to give a cut off
-# -h or --help to display a help message
-
+# Import library containning all functions develloped for this project
 from library import *
 # Permit to access to arguments passed to python script
 import sys
@@ -19,14 +14,15 @@ arg_passed = sys.argv[1:]
 filename = ''
 files_to_compute = ''
 dico_fasta = {}
-# If arg_passed is not empty (and have -all or filename) enter in this block
+# If arg_passed is not empty enter in this block
 if arg_passed:
     import re
+    # Display help if asked
     if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
         displayHelp()
-    # If -all argument is detected, this script will search in current directory all fasta files
+    # If -a or --all argument is detected, this script will search in current directory all fasta files
     if re.search('-a', str(arg_passed)) or re.search('--all', str(arg_passed)):
-        # Search for all fasta file in current directory
+        # Search for all fasta file(s) in current directory
         files_to_compute = getFastaFiles()
         if files_to_compute:
             # Verbose for user
@@ -34,15 +30,14 @@ if arg_passed:
             # Print all fasta files detected
             for files in files_to_compute:
                 print(files)
-                print('\n')
+            print('\n')
 
-    # Search for a fasta filename passed as script argument
     # Check if argument passed is a fasta filename
     if re.search('.fasta', str(arg_passed)) or re.search('.fa', str(arg_passed)):
-        # Save file name as a list
+        # Save filename given as a list
         files_to_compute = [arg_passed[0]]
 
-# If no informations were passed to script, he try to geta fsta fil in current directory
+# If no informations were passed to script, he try to get a fasta file in current directory
 if dico_fasta == {} and not files_to_compute:
     # Module permitting to get current directory
     import os
@@ -52,7 +47,6 @@ if dico_fasta == {} and not files_to_compute:
     print('You don\'t ask for anything, script will display all fasta files from current directory ' + cwd + '\n')
     # Try to get a fasta file from current directory
     files_to_compute = getFastaFiles()
-    # Verbose for user
     print('Script found these files in directory \n')
     # Print all fasta files detected
     for files in files_to_compute:
@@ -74,7 +68,7 @@ for file in files_to_compute:
     dico_fasta = getFasta(file)
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta, arg_passed, file)
-    #Parsing of results
+    # Parsing of results
     nodes = alignements[0]
     edges = alignements[1]
     cut_off = alignements[2]
