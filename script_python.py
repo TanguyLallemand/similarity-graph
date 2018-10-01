@@ -14,6 +14,8 @@ arg_passed = sys.argv[1:]
 filename = ''
 files_to_compute = ''
 dico_fasta = {}
+nodes = []
+edges = []
 # If arg_passed is not empty enter in this block
 if arg_passed:
     import re
@@ -69,8 +71,14 @@ for file in files_to_compute:
     # Alignement of sequences from fasta file
     alignements = alignSequences(dico_fasta, arg_passed, file)
     # Parsing of results
-    nodes = alignements[0]
-    edges = alignements[1]
+    # If user ask to concatenate graphs
+    if re.search('-e', str(arg_passed)) or re.search('--concatenate', str(arg_passed)):
+        nodes += alignements[0]
+        edges += alignements[1]
+    # If a different graph is construct for each fasta file
+    else:
+        nodes = alignements[0]
+        edges = alignements[1]
     cut_off = alignements[2]
     # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
     G = createGraph(nodes, edges)
