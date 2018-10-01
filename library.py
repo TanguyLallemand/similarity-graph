@@ -1,12 +1,13 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
+
 # Library of functions for script_python.py
 
 
 # This function search fasta files in current directory
 def getFastaFiles():
-    # Import glob module specialized in searching files following patterns.
+    # Import glob module to search files following patterns.
     # Source: https://docs.python.org/2/library/glob.html
     import glob
     # Search for files ending with fasta extensions
@@ -21,24 +22,24 @@ def getFastaFiles():
 def getFasta(file):
     # Open in read only a file given in argument
     with open(file, 'r') as fasta_file:
-        # Generate a dictionnary that will contain all datas extracted from file
+        # Initialize a dictionnary that will contain all datas extracted from a file
         fastas = {}
-        # Read line by line file opened
+        # Read line by line opened file
         for line in fasta_file:
-            # Check if '>' character is present permiting to check if line is a header or a sequence
+            # Check if '>' character is present. Permiting to check if line is a header or a sequence
             if line[0] == '>':
                 # Get first line of header, no need to save quality informations etc...
                 header = line[1:]
                 # Intialize a new entry in dictionnary with header as key and a empty value
                 fastas[header] = ''
             else:
-                # Get sequence associated to header and stock it in dictionnary previously intialised
+                # Get sequence associated to header and stock it in dictionnary previously intialized
                 fastas[header] += line
     # Return a dictionnary containing all datas from fasta file
     return(fastas)
 
 
-# This function align sequences by pair using pairwise 2 and get score of this alignement. It will return a dictionnary containning names of sequences aligned and associated score
+# This function align sequences by pair using pairwise 2 and save score of this alignement. It will return a dictionnary containning names of sequences aligned and associated score
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
@@ -70,22 +71,23 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     #
     # Pairwise permit to perform global or local alignement. For this script we choose to work using global alignements. In fact, we want to know if sequences are globally similar. Local alignements are mostly used to search for subsequences.
     # We need to configure global alignement function to perform alignement as wanted.
-    # To do it we can give two coded parameters:
-    #   - first parameter set up matches and mismatches.
-    #   - second set up gaps
-    # For this script, we give a match score for identical chars else it is a mismatch score (corresponding to m code). Moreover, same gap penalties for both sequences (s code) are applied.
+    # To do it we can give two parameters:
+    #   - First parameter set up matches and mismatches.
+    #   - Second set up gaps.
+    # For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
     # For score, we can add supplementary parameters.
-    # Match score: 2
-    # Mismatch score: -1
-    # Opening Gap: -0.5
-    # Extending Gap: -0.1
+    #   - Match score: 2
+    #   - Mismatch score: -1
+    #   - Opening Gap: -0.5
+    #   - Extending Gap: -0.1
 
+    # Import from Biopython pairwise 2 functions
     from Bio import pairwise2
+    from Bio.pairwise2 import format_alignment
     # Import package to perform regular expressions
     import re
     import os
-    from Bio.pairwise2 import format_alignment
-    # Generate list in order to save results
+    # Generate lists in order to save results
     edges = []
     nodes = []
     # Check if -c has been passed
@@ -98,7 +100,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     print('Script will select alignments with a score above: ' + str(cut_off))
     # Select a sequence from dictionnary
     for key in dico_fasta.keys():
-        # Select linked sequence
+        # Select another sequence
         for keys2 in dico_fasta.keys():
             # Check if comparison is not already done and if sequences are different
             if (keys2 + key) not in edges and key != keys2:
@@ -108,9 +110,10 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 # If user ask for save alignements using -s argument
                 if re.search('-s', str(arg_passed)) or re.search('--save', str(arg_passed)):
                     try:
-                        # Make a directory following path given
+                        # Make a directory to save output alignements
                         os.mkdir('output_sequences')
                     except:
+                        # If an exception is raised, creating directory, script continu
                         pass
                     # Determine name of output file
                     base = os.path.basename(name_of_file)
@@ -119,7 +122,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                     # Create final path
                     name_of_output = 'output_sequences/output_' + \
                         os.path.splitext(name)[0] + '.txt'
-                    # Create a output file
+                    # Create a output file in write mode
                     with open(name_of_output, 'w') as output:
                         for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
                             output.write(format_alignment(*a))
@@ -127,6 +130,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 if align > cut_off:
                     # add tuple to alignements
                     edges.append((key, keys2, round(align, 2)))
+                #Add non existant nodes in list
                 if key not in nodes:
                     nodes.append(key)
                 if keys2 not in nodes:
@@ -156,19 +160,17 @@ def createGraph(nodes, edges):
     # TODO: determiner ce qui est considerer comme fort ou pas
     # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
     strong_edge = [(u, v)
-                   for (u, v, d) in G.edges(data=True) if d['weight'] > 500]
+                   for (u, v, d) in G.edges(data=True) if d['weight'] > 16]
     weak_edge = [(u, v)
-                 for (u, v, d) in G.edges(data=True) if d['weight'] <= 459]
+                 for (u, v, d) in G.edges(data=True) if d['weight'] <= 15]
 
     # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spaces. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
     # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
     pos = graphviz_layout(G, prog='neato')
     # Draw nodes
-    # This function can receive different parameter and set up as wanted nodes. It is possible to change node's shape or color (using matplolib's color designation), add labels, transparency (with alpha parameter)
     nx.draw_networkx_nodes(G, pos, node_size=25, node_color="teal",
                            node_shape="s", alpha=0.5, linewidths=30, label=True)
     # Draw edges
-    # This function can receive different parameter and setup as wanted edges. It is possible to change edge color, style and transparency (with alpha parameter)
     # Edge for strong links
     nx.draw_networkx_edges(G, pos, edgelist=strong_edge, with_labels=True, width=5,
                            edge_color="silver", style="solid", alpha=0.8)
@@ -213,29 +215,20 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
         directory_choice = 'output_figures'
         # Get basename
         base = os.path.basename(name_of_file)
-        # Change extension by pdf
+        # Add pdf extension
         name = os.path.splitext(base)[0] + '.pdf'
-        #Call a function that will create directory and output pdf
+        # Call function that will create directory and output pdf
         my_path = createDirectoryAndOutputGraph(directory_choice, name)
     else:
         # Ask user for pdf's name
         name = input(
             'Please give a name for output file \n')
-        # Add extension for output file. Prefer pdf for keep vectorial quality
+        # Add pdf extension
         name = name + '.pdf'
         # Ask user for a directory to save pdf
         directory_choice = input(
             'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
-        if directory_choice:
-            my_path = createDirectoryAndOutputGraph(directory_choice, name)
-        else:
-            # A try block to try to save graph in pdf in maximum quality
-            try:
-                my_path = os.getcwd() + '/' + directory_choice
-                plt.savefig(name,
-                            bbox_inches="tight", bbox_extra_artists=[])
-            except:
-                print('Can\'t save graph \nPlease correct name of pdf')
+        my_path = createDirectoryAndOutputGraph(directory_choice, name)
     # User can display immediatly graph if desired
     choice = input('Graph {} saved sucessfully in {} \nDo you want to display graph? (y|n) \n'.format(
         name, my_path))
@@ -261,7 +254,7 @@ def createDirectoryAndOutputGraph(directory_choice, name):
     from errno import EEXIST
     import os
     # Get current path and add subdirectory name
-    # Figures out the absolute path for you in case your working directory moves around.
+    # Get current directory path
     my_path = os.getcwd() + '/' + directory_choice
     # Try to create a new directory
     # Source: https://stackoverflow.com/questions/11373610/save-matplotlib-file-to-a-directory/11373653#11373653
@@ -290,5 +283,5 @@ def createDirectoryAndOutputGraph(directory_choice, name):
 def displayHelp():
     wait = input(
         'This script was designed to construct a graph a similarity between different DNA sequences\n')
-    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to get all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or subdirectory\sequences.fasta\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
+    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
     exit()

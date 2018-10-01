@@ -54,7 +54,10 @@ to ask script to work on all fasta files with default configuration
 
  Execute this script on all fasta files of current directory with 200 as cut off.
 
+### Output graphs
 
+ Prefer pdf for keep vectorial quality
+ 
 ## Built With
 
 -   [Anaconda](https://www.anaconda.com/) - Environment management

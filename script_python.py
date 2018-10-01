@@ -8,6 +8,8 @@
 from library import *
 # Permit to access to arguments passed to python script
 import sys
+# Permit regular expression
+import re
 # Get argument(s) passed as list without script name
 arg_passed = sys.argv[1:]
 # Initialization of variables used in conditionnals
