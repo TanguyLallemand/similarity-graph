@@ -8,31 +8,25 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-In order to run this script some python packages are necessary. List of package in python environment is contained in [file](Packages_used_for_virtual env/python_environment_used.txt) - Virtual environment used
+In order to run this script some python packages are necessary. List of package in python environment is contained in this [file](Packages_used_for_virtual env/python_environment_used.txt) (You can get it in Packages_used_for_virtual env/python_environment_used.txt).
 
-```
-Give examples
-```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+To get a virtual environment up and Running
 
 ```
-Give the example
+conda create --name <env> --file python_environment_used.txt # Create a conda environment
+source activate <env>
+```
+Give execution rights and execute it
+```
+chmod +x script_python.py
+./script_python.py
 ```
 
-And repeat
 
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
+## Use this script
 
 Explain how to run the automated tests for this system
 
