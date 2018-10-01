@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-In order to run this script some python packages are necessary. List of package in python environment is contained in [this file] (Packages_used_for_virual_env/python_environment_used.txt) - Virtual environment used
+In order to run this script some python packages are necessary. List of package in python environment is contained in [this file] (./Packages_used_for_virual_env/python_environment_used.txt) - Virtual environment used
 
 ```
 Give examples
