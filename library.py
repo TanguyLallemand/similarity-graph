@@ -16,6 +16,7 @@ def getFastaFiles():
     # Return results
     return fasta_files
 
+
 # This function open a fasta file and extract headers and associated sequences
 
 
@@ -26,9 +27,9 @@ def getFasta(file):
         fastas = {}
         # Read line by line opened file
         for line in fasta_file:
-            # Check if '>' character is present. Permiting to check if line is a header or a sequence
+            # Check if '>' character is present to check if line is a header or a sequence
             if line[0] == '>':
-                # Get first line of header, no need to save quality informations etc...
+                # Get first line of header containning name, no need to save quality informations etc...
                 header = line[1:]
                 # Intialize a new entry in dictionnary with header as key and a empty value
                 fastas[header] = ''
@@ -43,25 +44,6 @@ def getFasta(file):
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
-
-    # TODO: Maybe use itertool to generate all possible combination? permit to avoid conditionnals
-
-    # import itertools, sys
-    # from Bio import SeqIO, pairwise2
-    #
-    # fasta = sys.argv[1]
-    # with open(fasta, 'r') as f:
-    #     seqs = []
-    #     for line in f:
-    #         if not line.startswith('>'):
-    #             seqs.append(line.strip())
-    #
-    # combos = itertools.combinations(seqs, 2)
-    #
-    # for k,v in combos:
-    #     aln = pairwise2.align.localxx(k,v)
-    #     print pairwise2.format_alignment(*aln[0])
-
     # Import pairwise, permitting alignement from Biopython package.
     # Understanding functions of this package
     #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
@@ -74,8 +56,8 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     # To do it we can give two parameters:
     #   - First parameter set up matches and mismatches.
     #   - Second set up gaps.
-    # For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
-    # For score, we can add supplementary parameters.
+    # For this script, we give a match score for identical chars, a missmatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
+    # For calculate score, we can add supplementary parameters.
     #   - Match score: 2
     #   - Mismatch score: -1
     #   - Opening Gap: -0.5
@@ -113,7 +95,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                         # Make a directory to save output alignements
                         os.mkdir('output_sequences')
                     except:
-                        # If an exception is raised, creating directory, script continu
+                        # If an exception is raised creating directory script will follow
                         pass
                     # Determine name of output file
                     base = os.path.basename(name_of_file)
@@ -130,7 +112,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 if align > cut_off:
                     # add tuple to alignements
                     edges.append((key, keys2, round(align, 2)))
-                #Add non existant nodes in list
+                # Add non existant nodes in list
                 if key not in nodes:
                     nodes.append(key)
                 if keys2 not in nodes:
@@ -157,14 +139,13 @@ def createGraph(nodes, edges):
     G.add_nodes_from(nodes)
     # Add links between nodes
     G.add_weighted_edges_from(edges)
-    # TODO: determiner ce qui est considerer comme fort ou pas
     # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
     strong_edge = [(u, v)
                    for (u, v, d) in G.edges(data=True) if d['weight'] > 16]
     weak_edge = [(u, v)
                  for (u, v, d) in G.edges(data=True) if d['weight'] <= 15]
 
-    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap, and less non aesthetic spaces. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
+    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap or non aesthetic spaces. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
     # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
     pos = graphviz_layout(G, prog='neato')
     # Draw nodes
@@ -246,7 +227,6 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
         # Reset graph in case of a second graph coming
         plt.gcf().clear()
     else:
-
         # Reset graph in case of a second graph coming
         plt.gcf().clear()
 
