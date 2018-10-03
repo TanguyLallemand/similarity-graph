@@ -215,16 +215,24 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
         directory_choice = 'output_figures'
         # Get basename
         base = os.path.basename(name_of_file)
-        # Add pdf extension
-        name = os.path.splitext(base)[0] + '.pdf'
+        if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
+            # Add png extension
+            name = os.path.splitext(base)[0] + '.png'
+        else:
+            # Add pdf extension
+            name = os.path.splitext(base)[0] + '.pdf'
         # Call function that will create directory and output pdf
         my_path = createDirectoryAndOutputGraph(directory_choice, name)
     else:
         # Ask user for pdf's name
         name = input(
             'Please give a name for output file \n')
-        # Add pdf extension
-        name = name + '.pdf'
+        if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
+            # Add png extension
+            name = name + '.png'
+        else:
+            # Add pdf extension
+            name = name + '.pdf'
         # Ask user for a directory to save pdf
         directory_choice = input(
             'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
@@ -283,5 +291,5 @@ def createDirectoryAndOutputGraph(directory_choice, name):
 def displayHelp():
     wait = input(
         'This script was designed to construct a graph a similarity between different DNA sequences\n')
-    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
+    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -p or --png to ask to save output graph in png\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
     exit()

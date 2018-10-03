@@ -38,6 +38,7 @@ List of possibles arguments and their effects:
     -c to give a numeric value working as a cut off
     -d or --default to let script choose for output file and directory names
     -e or --concatenate to concatenate graphs from different fasta files into one
+    -p or --png to ask to save output graph in png
     -h or --help to display a help message
 
 ### Examples of call:
@@ -54,10 +55,11 @@ to ask script to work on all fasta files with default configuration
 
  Execute this script on all fasta files of current directory with 200 as cut off.
 
-### Output graphs
+### Expected output
 
- Prefer pdf for keep vectorial quality
- 
+Repository contain som example of expected output graph. They were generated using 'sequences.fasta' and 'test.fasta'. Output graph are saved by default in pdf to keep vectorial quality but it is possible with -p flag to ask for a png.
+Here is an example of an output graph:
+![Output Example sequences](output_figures/sequences.png)
 ## Built With
 
 -   [Anaconda](https://www.anaconda.com/) - Environment management
