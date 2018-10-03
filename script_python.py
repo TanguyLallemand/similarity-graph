@@ -1,45 +1,46 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
+
+
 # To get list of possible arguments and their effects please call script wit -h or --help argument
+
+
 # TODO: ameliorer le rendu de l'alignemetn
 
-# Import library containning all functions develloped for this project
+# Import library containning all functions written for this project
 from library import *
 # Permit to access to arguments passed to python script
 import sys
-# Permit regular expression
+# Permit to perform regular expressions
 import re
-# Get argument(s) passed as list without script name
+# Save argument(s) passed as list without script name
 arg_passed = sys.argv[1:]
-# Initialization of variables used in conditionnals
+# Initialization of some variables
 filename = ''
 files_to_compute = ''
 dico_fasta = {}
 nodes = []
 edges = []
-# If arg_passed is not empty enter in this block
-if arg_passed:
-    import re
-    # Display help if asked
-    if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
-        displayHelp()
-    # If -a or --all argument is detected, this script will search in current directory all fasta files
-    if re.search('-a', str(arg_passed)) or re.search('--all', str(arg_passed)):
-        # Search for all fasta file(s) in current directory
-        files_to_compute = getFastaFiles()
-        if files_to_compute:
-            # Verbose for user
-            print('Script will work on thoses files: \n')
-            # Print all fasta files detected
-            for files in files_to_compute:
-                print(files)
-            print('\n')
+# Display help if asked
+if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
+    displayHelp()
+# If -a or --all argument is detected, this script will search in current directory all fasta files
+if re.search('-a', str(arg_passed)) or re.search('--all', str(arg_passed)):
+    # Search for all fasta file(s) in current directory
+    files_to_compute = getFastaFiles()
+    if files_to_compute:
+        # Verbose for user
+        print('Script will work on thoses files: \n')
+        # Print all fasta files detected
+        for files in files_to_compute:
+            print(files)
+        print('\n')
 
-    # Check if argument passed is a fasta filename
-    if re.search('.fasta', str(arg_passed)) or re.search('.fa', str(arg_passed)):
-        # Save filename given as a list
-        files_to_compute = [arg_passed[0]]
+# Check if a fasta filename has been passed
+if re.search('.fasta', str(arg_passed)) or re.search('.fa', str(arg_passed)):
+    # Save filename given as a list
+    files_to_compute = [arg_passed[0]]
 
 # If no informations were passed to script, he try to get a fasta file in current directory
 if dico_fasta == {} and not files_to_compute:
@@ -77,12 +78,13 @@ for file in files_to_compute:
     if re.search('-e', str(arg_passed)) or re.search('--concatenate', str(arg_passed)):
         nodes += alignements[0]
         edges += alignements[1]
-    # If a different graph is construct for each fasta file
+    # Else a different graph is construct for each fasta file
     else:
         nodes = alignements[0]
         edges = alignements[1]
+    # Get treshold
     cut_off = alignements[2]
-    # Create a graph object using list_of_edges, names_of_sequences, dictionnary_of_labels
+    # Create a networkx graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
     displayAndSaveGraph(arg_passed, file, cut_off)
