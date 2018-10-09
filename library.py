@@ -4,8 +4,9 @@
 
 # Library of functions for script_python.py
 
-
 # This function search fasta files in current directory
+
+
 def getFastaFiles():
     # Import glob module to search files following patterns.
     # Source: https://docs.python.org/2/library/glob.html
@@ -140,7 +141,7 @@ def createGraph(nodes, edges):
     # Add links between nodes
     G.add_weighted_edges_from(edges)
     # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
-    #Arbitrary choose a score above 16 is seen as a strong link. Must be changed. This function is not so much usefull in many case but can be tweak by user following his dataset to become useful.
+    # Arbitrary choose a score above 16 is seen as a strong link. Must be changed. This function is not so much usefull in many case but can be tweak by user following his dataset to become useful.
     strong_edge = [(u, v)
                    for (u, v, d) in G.edges(data=True) if d['weight'] > 16]
     weak_edge = [(u, v)
