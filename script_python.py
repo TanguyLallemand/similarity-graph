@@ -5,7 +5,6 @@
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
-
 # Import library containing all functions written for this project
 from library import *
 # Permit to access to arguments passed to python script
