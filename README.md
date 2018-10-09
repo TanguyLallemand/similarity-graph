@@ -41,7 +41,7 @@ List of possibles arguments and their effects:
     -s or --save to save alignments in a text file
     -h or --help to display a help message
 
-You can also give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or sub directory\sequences.fasta.
+You can also give as argument a name or path of a fasta file that you want to compute. Example: sequence.fasta or sub directory\sequence.fasta.
 Please be careful, if script is called with a fasta file given as argument, flags must be after filename
 ### Examples of call:
 
@@ -49,7 +49,7 @@ Please be careful, if script is called with a fasta file given as argument, flag
 
 To ask script to work on all fasta files with default configuration
 
-     ./script_python.py sequence.fasta -s
+     ./script_python.py fasta_files/sequence.fasta -s
 
  To align all sequences from sequences.fasta with default cut off (100). Alignments produced will be saved in output_sequences.txt
 
