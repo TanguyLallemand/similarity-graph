@@ -23,24 +23,24 @@ def getFastaFiles():
 def getFasta(file):
     # Open in read only a file given in argument
     with open(file, 'r') as fasta_file:
-        # Initialize a dictionnary that will contain all datas extracted from a file
+        # Initialize a dictionary that will contain all data extracted from a file
         fastas = {}
         # Read line by line opened file
         for line in fasta_file:
             # Check if '>' character is present to check if line is a header or a sequence
             if line[0] == '>':
-                # Get first line of header containning name, no need to save quality informations etc...
+                # Get first line of header containing name, no need to save quality information etc...
                 header = line[1:]
-                # Intialize a new entry in dictionnary with header as key and a empty value
+                # Intialize a new entry in dictionary with header as key and a empty value
                 fastas[header] = ''
             else:
-                # Get sequence associated to header and stock it in dictionnary previously intialized
+                # Get sequence associated to header and stock it in dictionary previously initialized
                 fastas[header] += line
-    # Return a dictionnary containing all datas from fasta file
+    # Return a dictionary containing all datas from fasta file
     return(fastas)
 
 
-# This function align sequences by pair using pairwise 2 and save score of this alignement. It will return a dictionnary containning names of sequences aligned and associated score
+# This function align sequences by pair using pairwise 2 and save score of this alignment. It will return a dictionary containing names of sequences aligned and associated score
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
@@ -51,12 +51,12 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     #     Source: https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
     #     Source: https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
     #
-    # Pairwise permit to perform global or local alignement. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for subsequences.
-    # We need to configure global alignement function to perform alignement as wanted.
+    # Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
+    # We need to configure global alignment function to perform alignment as wanted.
     # To do it we can give two parameters:
     #   - First parameter set up matches and mismatches.
     #   - Second set up gaps.
-    # For this script, we give a match score for identical chars, a missmatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
+    # For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
     # For calculate score, we can add supplementary parameters.
     #   - Match score: 2
     #   - Mismatch score: -1
@@ -74,19 +74,19 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     nodes = []
     # Check if -c has been passed
     if re.search('-c', str(arg_passed)) or re.search('--cut_off', str(arg_passed)):
-        # Get cut off passed by saving argument just after -c and transtype it into float
+        # Get cut off passed by saving argument just after -c and trans type it into float
         cut_off = float(arg_passed[arg_passed.index('-c') + 1])
     else:
-        # Give a default value for cut off if user don't ask for a particular treshold
+        # Give a default value for cut off if user don't ask for a particular threshold
         cut_off = 100
     print('Script will select alignments with a score above: ' + str(cut_off))
-    # Select a sequence from dictionnary
+    # Select a sequence from dictionary
     for key in dico_fasta.keys():
         # Select another sequence
         for keys2 in dico_fasta.keys():
             # Check if comparison is not already done and if sequences are different
             if (keys2 + key) not in edges and key != keys2:
-                # Perform alignement
+                # Perform alignment
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
                 # If user ask for save alignments using -s argument
@@ -108,16 +108,16 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                     with open(name_of_output, 'w') as output:
                         for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
                             output.write(format_alignment(*a))
-                # Add alignments if they are sufficently reliable
+                # Add alignments if they are sufficiently reliable
                 if align > cut_off:
                     # add tuple to alignments
                     edges.append((key, keys2, round(align, 2)))
-                # Add non existant nodes in list
+                # Add non existent nodes in list
                 if key not in nodes:
                     nodes.append(key)
                 if keys2 not in nodes:
                     nodes.append(key)
-    # Return dictionnary containning results
+    # Return dictionary containing results
     return [nodes, edges, cut_off]
 
 
@@ -140,12 +140,13 @@ def createGraph(nodes, edges):
     # Add links between nodes
     G.add_weighted_edges_from(edges)
     # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
+    #Arbitrary choose a score above 16 is seen as a strong link. Must be changed. This function is not so much usefull in many case but can be tweak by user following his dataset to become useful.
     strong_edge = [(u, v)
                    for (u, v, d) in G.edges(data=True) if d['weight'] > 16]
     weak_edge = [(u, v)
                  for (u, v, d) in G.edges(data=True) if d['weight'] <= 15]
 
-    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap or non aesthetic spaces. Moreover, different layout programms can be used. We choosed neato. This permit to generate "spring model" layouts. This layout programm is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
+    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap or non aesthetic spaces. Moreover, different layout programs can be used. We choose neato. This permit to generate "spring model" layouts. This layout program is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
     # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
     pos = graphviz_layout(G, prog='neato')
     # Draw nodes
@@ -194,7 +195,7 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
     if re.search('-d', str(arg_passed)) or re.search('--default', str(arg_passed)):
         # Give a default directory name
         directory_choice = 'output_figures'
-        # Get basename
+        # Get base name
         base = os.path.basename(name_of_file)
         if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
             # Add png extension
@@ -216,10 +217,10 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
             name = name + '.pdf'
         # Ask user for a directory to save pdf
         directory_choice = input(
-            'Where do you want to save {}.pdf? \nGive a name for a subdirectory \nIf leaved blank it will be saved in current directory\n'.format(name))
+            'Where do you want to save {}.pdf? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
         my_path = createDirectoryAndOutputGraph(directory_choice, name)
-    # User can display immediatly graph if desired
-    choice = input('Graph {} saved sucessfully in {} \nDo you want to display graph? (y|n) \n'.format(
+    # User can display immediately graph if desired
+    choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
         name, my_path))
     if choice == 'y':
         print('Script will exit when display window is close')
@@ -241,7 +242,7 @@ def createDirectoryAndOutputGraph(directory_choice, name):
     # Import errno to handle with errors during directory creation
     from errno import EEXIST
     import os
-    # Get current path and add subdirectory name
+    # Get current path and add sub directory name
     # Get current directory path
     my_path = os.getcwd() + '/' + directory_choice
     # Try to create a new directory
@@ -254,7 +255,7 @@ def createDirectoryAndOutputGraph(directory_choice, name):
             pass
         else:
             raise
-    # If no exceptions are raised pdf is saved in new subdirectory
+    # If no exceptions are raised pdf is saved in new sub directory
     # First path is concatenate with pdf's name wanted
     my_path = os.path.join(my_path, name)
     # Try to save pdf

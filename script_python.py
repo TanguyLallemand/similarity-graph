@@ -5,7 +5,8 @@
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
-# Import library containning all functions written for this project
+
+# Import library containing all functions written for this project
 from library import *
 # Permit to access to arguments passed to python script
 import sys
@@ -68,9 +69,10 @@ if dico_fasta == {} and not files_to_compute:
 for file in files_to_compute:
     # Get data from fasta file(s)
     dico_fasta = getFasta(file)
-    # Alignement of sequences from fasta file
+    # Alignment of sequences from fasta file
     alignments = alignSequences(dico_fasta, arg_passed, file)
     # Parsing of results
+
     # If user ask to concatenate graphs
     if re.search('-e', str(arg_passed)) or re.search('--concatenate', str(arg_passed)):
         nodes += alignments[0]
@@ -79,9 +81,9 @@ for file in files_to_compute:
     else:
         nodes = alignments[0]
         edges = alignments[1]
-    # Get treshold
+    # Get threshold
     cut_off = alignments[2]
-    # Create a networkx graph object
+    # Create a networkX graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
     displayAndSaveGraph(arg_passed, file, cut_off)

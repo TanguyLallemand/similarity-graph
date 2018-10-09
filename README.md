@@ -12,7 +12,7 @@ In order to run this script some python packages are necessary. List of package 
 
 ### Installing
 
-First you need to create a virtual environnement for this script using these lines:
+First you need to create a virtual environment for this script using these lines:
 
     conda create --name <env> --file python_environment_used.txt # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
@@ -40,7 +40,7 @@ List of possibles arguments and their effects:
     -s or --save to save alignments in a text file
     -h or --help to display a help message
 
-You can also give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or subdirectory\sequences.fasta.
+You can also give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or sub directory\sequences.fasta.
 Please be careful, if script is called with a fasta file given as argument, flags must be after filename
 ### Examples of call:
 
@@ -65,7 +65,7 @@ Here is an example of an output graph:
 ## Built With
 
 -   [Anaconda](https://www.anaconda.com/) - Environment management
--   [Networkx](https://networkx.github.io/) - Used to generate network graph
+-   [Networkx](https://networkx.github.io/) - Python library used to generate network graph
 
 ## Author
 
