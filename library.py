@@ -51,7 +51,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     #     Source: https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
     #     Source: https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
     #
-    # Pairwise permit to perform global or local alignement. For this script we choose to work using global alignements. In fact, we want to know if sequences are globally similar. Local alignements are mostly used to search for subsequences.
+    # Pairwise permit to perform global or local alignement. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for subsequences.
     # We need to configure global alignement function to perform alignement as wanted.
     # To do it we can give two parameters:
     #   - First parameter set up matches and mismatches.
@@ -89,10 +89,10 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 # Perform alignement
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
-                # If user ask for save alignements using -s argument
+                # If user ask for save alignments using -s argument
                 if re.search('-s', str(arg_passed)) or re.search('--save', str(arg_passed)):
                     try:
-                        # Make a directory to save output alignements
+                        # Make a directory to save output alignments
                         os.mkdir('output_sequences')
                     except:
                         # If an exception is raised creating directory script will follow
@@ -108,9 +108,9 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                     with open(name_of_output, 'w') as output:
                         for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
                             output.write(format_alignment(*a))
-                # Add alignements if they are sufficently reliable
+                # Add alignments if they are sufficently reliable
                 if align > cut_off:
-                    # add tuple to alignements
+                    # add tuple to alignments
                     edges.append((key, keys2, round(align, 2)))
                 # Add non existant nodes in list
                 if key not in nodes:
@@ -121,7 +121,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     return [nodes, edges, cut_off]
 
 
-# Function to create a graph from reliable alignements results
+# Function to create a graph from reliable alignments results
 # Return a graph object
 # Understanding package:
 #   Source: https://networkx.github.io/documentation/stable/index.html
@@ -271,5 +271,5 @@ def createDirectoryAndOutputGraph(directory_choice, name):
 def displayHelp():
     wait = input(
         'This script was designed to construct a graph a similarity between different DNA sequences\n')
-    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignements in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -p or --png to ask to save output graph in png\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
+    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignments in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -p or --png to ask to save output graph in png\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py sequences.fasta -s to align all sequences from sequences.fasta with default cut off (100). alignments produced will be saved in output_sequences.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
     exit()

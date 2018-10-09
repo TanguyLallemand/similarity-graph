@@ -37,19 +37,20 @@ List of possibles arguments and their effects:
     -d or --default to let script choose for output file and directory names
     -e or --concatenate to concatenate graphs from different fasta files into one
     -p or --png to ask to save output graph in png
-    -s or --save to save alignements in a text file
+    -s or --save to save alignments in a text file
     -h or --help to display a help message
 
-You can also give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or subdirectory\sequences.fasta
+You can also give as argument a name or path of a fasta file that you want to compute. Example: sequences.fasta or subdirectory\sequences.fasta.
+Please be careful, if script is called with a fasta file given as argument, flags must be after filename
 ### Examples of call:
 
      ./script_python.py -a -d
 
 To ask script to work on all fasta files with default configuration
 
-     ./script_python.py sequences.fasta -s
+     ./script_python.py sequence.fasta -s
 
- To align all sequences from sequences.fasta with default cut off (100). Alignements produced will be saved in output_sequences.txt
+ To align all sequences from sequences.fasta with default cut off (100). Alignments produced will be saved in output_sequences.txt
 
     ./script_python.py -a -c 200
 
@@ -59,7 +60,7 @@ To ask script to work on all fasta files with default configuration
 
 This repository contain some examples of expected output graph. They were generated using 'sequences.fasta' and 'test.fasta'. Output graph are saved by default in pdf to keep vectorial quality but it is possible with -p flag to ask for a png.
 Here is an example of an output graph:
-![Output Example sequences](output_figures/sequences.png)
+![Output Example sequences](output_figures/sequence.png)
 
 ## Built With
 
@@ -68,4 +69,4 @@ Here is an example of an output graph:
 
 ## Author
 
--   **Tanguy Lallemand**
+-   **Tanguy Lallemand**, M2BB

@@ -5,9 +5,6 @@
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
-
-# TODO: ameliorer le rendu de l'alignemetn
-
 # Import library containning all functions written for this project
 from library import *
 # Permit to access to arguments passed to python script
@@ -72,18 +69,18 @@ for file in files_to_compute:
     # Get data from fasta file(s)
     dico_fasta = getFasta(file)
     # Alignement of sequences from fasta file
-    alignements = alignSequences(dico_fasta, arg_passed, file)
+    alignments = alignSequences(dico_fasta, arg_passed, file)
     # Parsing of results
     # If user ask to concatenate graphs
     if re.search('-e', str(arg_passed)) or re.search('--concatenate', str(arg_passed)):
-        nodes += alignements[0]
-        edges += alignements[1]
+        nodes += alignments[0]
+        edges += alignments[1]
     # Else a different graph is construct for each fasta file
     else:
-        nodes = alignements[0]
-        edges = alignements[1]
+        nodes = alignments[0]
+        edges = alignments[1]
     # Get treshold
-    cut_off = alignements[2]
+    cut_off = alignments[2]
     # Create a networkx graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
