@@ -22,6 +22,7 @@ To follow, give execution rights to script and execute it
     chmod +x script_python.py
     ./script_python.py
 
+If you prefer, just run setup.sh to create environment called python_align and execute this script giving sequence.fasta and using default configuration
 ## Use this script
 
 You can call this script with different flags
