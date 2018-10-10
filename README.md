@@ -1,6 +1,6 @@
 # Python_align
 
-Python_align is a python script permitting to construct a network graph based on similarity between different DNA sequences from a fasta file.
+Python_align is a python script permitting to construct a network graph based on similarity between different DNA sequences from a fasta file. All files necessary are accessible on this [repository](https://bitbucket.org/TanguyLallemand/python_align/src/master/)
 
 ## Getting Started
 
