@@ -45,25 +45,12 @@ def getFasta(file):
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
-    # Import pairwise, permitting alignement from Biopython package.
     # Understanding functions of this package
     #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
     # For configurations:
     #     Source: https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
     #     Source: https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
     #
-    # Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
-    # We need to configure global alignment function to perform alignment as wanted.
-    # To do it we can give two parameters:
-    #   - First parameter set up matches and mismatches.
-    #   - Second set up gaps.
-    # For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
-    # For calculate score, we can add supplementary parameters.
-    #   - Match score: 2
-    #   - Mismatch score: -1
-    #   - Opening Gap: -0.5
-    #   - Extending Gap: -0.1
-
     # Import from Biopython pairwise 2 functions
     from Bio import pairwise2
     from Bio.pairwise2 import format_alignment

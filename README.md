@@ -72,3 +72,17 @@ Here is an example of an output graph:
 ## Author
 
 -   **Tanguy Lallemand**, M2BB
+
+##Theorie
+
+Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
+We need to configure global alignment function to perform alignment as wanted.
+To do it we can give two parameters:
+  - First parameter set up matches and mismatches.
+  - Second set up gaps.
+For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
+For calculate score, we can add supplementary parameters.
+  - Match score: 2
+  - Mismatch score: -1
+  - Opening Gap: -0.5
+  - Extending Gap: -0.1
