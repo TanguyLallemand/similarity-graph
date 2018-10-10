@@ -1,9 +1,8 @@
-# No shebang necessary because using virtual environments
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
 # Library of functions for script_python.py
-
 
 # This function search fasta files in current directory
 
@@ -46,12 +45,12 @@ def getFasta(file):
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
-    # Sources:
+    # Import pairwise, permitting alignement from Biopython package.
     # Understanding functions of this package
-    #     http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
+    #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
     # For configurations:
-    #     https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
-    #     https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
+    #     Source: https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
+    #     Source: https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
     #
     # Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
     # We need to configure global alignment function to perform alignment as wanted.
@@ -80,7 +79,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
         cut_off = float(arg_passed[arg_passed.index('-c') + 1])
     else:
         # Give a default value for cut off if user don't ask for a particular threshold
-        cut_off = 0
+        cut_off = 100
     print('Script will select alignments with a score above: ' + str(cut_off))
     # Select a sequence from dictionary
     for key in dico_fasta.keys():
@@ -125,8 +124,6 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
 
 # Function to create a graph from reliable alignments results
 # Return a graph object
-
-# Sources:
 # Understanding package:
 #   Source: https://networkx.github.io/documentation/stable/index.html
 # Improve appearance:
@@ -179,7 +176,7 @@ def createGraph(nodes, edges):
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
 
 
-def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
+def displayAndSaveGraph(arg_passed, name_of_file, cut_off, G):
     import matplotlib.pyplot as plt
     import re
     import os
@@ -201,14 +198,9 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
         directory_choice = 'output_figures'
         # Get base name
         base = os.path.basename(name_of_file)
-        if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
-            # Add png extension
-            name = os.path.splitext(base)[0] + '.png'
-        else:
-            # Add pdf extension
-            name = os.path.splitext(base)[0] + '.pdf'
+        name = os.path.splitext(base)[0] + '.gexf'
         # Call function that will create directory and output pdf
-        my_path = createDirectoryAndOutputGraph(directory_choice, name)
+        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed)
     else:
         # Ask user for pdf's name
         name = input(
@@ -218,11 +210,11 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
             name = name + '.png'
         else:
             # Add pdf extension
-            name = name + '.pdf'
+            name = name + '.gexf'
         # Ask user for a directory to save pdf
         directory_choice = input(
-            'Where do you want to save {}.pdf? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
-        my_path = createDirectoryAndOutputGraph(directory_choice, name)
+            'Where do you want to save {}? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
+        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed)
     # User can display immediately graph if desired
     choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
         name, my_path))
@@ -239,10 +231,11 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off):
 # This function permit to create a directory and save output pdf file in it
 
 
-def createDirectoryAndOutputGraph(directory_choice, name):
+def createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed):
     import matplotlib.pyplot as plt
     import re
     import os
+    import networkx as nx
     # Import errno to handle with errors during directory creation
     from errno import EEXIST
     import os
@@ -262,12 +255,18 @@ def createDirectoryAndOutputGraph(directory_choice, name):
     # If no exceptions are raised pdf is saved in new sub directory
     # First path is concatenate with pdf's name wanted
     my_path = os.path.join(my_path, name)
-    # Try to save pdf
-    try:
-        plt.savefig(my_path,
-                    bbox_inches="tight", bbox_extra_artists=[])
-    except:
-        print('Can\'t save graph \n')
+    # Try to save in a different format than gexf
+    if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
+        try:
+            plt.savefig(my_path,
+                        bbox_inches="tight", bbox_extra_artists=[])
+        except:
+            print('Can\'t save graph \n')
+    else:
+        try:
+            nx.write_gexf(G, my_path)
+        except:
+            print('Can\'t save graph \n')
     return my_path
 
 # Display help if user ask for it

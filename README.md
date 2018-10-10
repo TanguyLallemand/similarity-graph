@@ -38,6 +38,7 @@ List of possibles arguments and their effects:
     -d or --default to let script choose for output file and directory names
     -e or --concatenate to concatenate graphs from different fasta files into one
     -p or --png to ask to save output graph in png
+    -m or --pdf to ask to save output graph in png
     -s or --save to save alignments in a text file
     -h or --help to display a help message
 

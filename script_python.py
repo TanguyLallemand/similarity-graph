@@ -1,7 +1,8 @@
-# No shebang necessary because using virtual environments
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
+# TODO: argparse
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
@@ -85,6 +86,6 @@ for file in files_to_compute:
     # Create a networkX graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
-    displayAndSaveGraph(arg_passed, file, cut_off)
+    displayAndSaveGraph(arg_passed, file, cut_off, G)
 
 print('Job done, script will exit')
