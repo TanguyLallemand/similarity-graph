@@ -1,8 +1,9 @@
-#! /usr/bin/env python3
+# No shebang necessary because using virtual environments
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
 # Library of functions for script_python.py
+
 
 # This function search fasta files in current directory
 
@@ -45,12 +46,12 @@ def getFasta(file):
 
 
 def alignSequences(dico_fasta, arg_passed, name_of_file):
-    # Import pairwise, permitting alignement from Biopython package.
+    # Sources:
     # Understanding functions of this package
-    #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
+    #     http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
     # For configurations:
-    #     Source: https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
-    #     Source: https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
+    #     https://towardsdatascience.com/pairwise-sequence-alignment-using-biopython-d1a9d0ba861f
+    #     https://www.kaggle.com/mylesoneill/pairwise-alignment-using-biopython
     #
     # Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
     # We need to configure global alignment function to perform alignment as wanted.
@@ -79,7 +80,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
         cut_off = float(arg_passed[arg_passed.index('-c') + 1])
     else:
         # Give a default value for cut off if user don't ask for a particular threshold
-        cut_off = 100
+        cut_off = 0
     print('Script will select alignments with a score above: ' + str(cut_off))
     # Select a sequence from dictionary
     for key in dico_fasta.keys():
@@ -124,6 +125,8 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
 
 # Function to create a graph from reliable alignments results
 # Return a graph object
+
+# Sources:
 # Understanding package:
 #   Source: https://networkx.github.io/documentation/stable/index.html
 # Improve appearance:

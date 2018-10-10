@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+# No shebang necessary because using virtual environments
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
