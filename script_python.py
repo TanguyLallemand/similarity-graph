@@ -3,6 +3,8 @@
 # Author: Tanguy Lallemand M2 BB
 
 # TODO: argparse
+# TODO: mettre en place un juptyter
+# TODO: export in javascript??
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
