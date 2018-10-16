@@ -14,25 +14,28 @@ from library import *
 import sys
 # Permit to perform regular expressions
 import re
-
+# Module permitting to get current directory
+import os
 import argparse
 parser = argparse.ArgumentParser()
-# parser.add_argument("-c", , "--treshold" help="display a square of a given number",
-#                     type=int)
-parser.add_argument("-a", "--all", help="concatenate graphs from different fasta files into one", action="store_true")
+parser.add_argument("-a", "--all", help="ask script to get all fasta files from current directory", action="store_true")
+parser.add_argument("-f", "--file", help="give a path or a filename of a fasta file", action='append')
+parser.add_argument("-s", "--save", help="save alignments in a text file", action="store_true")
+parser.add_argument("-e", "--concatenate", help="concatenate graphs from different fasta files into one", action="store_true")
+parser.add_argument("-c", "--threshold", help="give a numeric value working as a cut off", type=float , nargs='?', default=100)
+parser.add_argument("-d", "--default", help="let script choose for output file and directory names", action="store_true")
+parser.add_argument("-p", "--png", help="ask to save output graph in png", action="store_true")
+parser.add_argument("-m", "--pdf", help="ask to save output graph in pdf", action="store_true")
+
 args = parser.parse_args()
 
-# Save argument(s) passed as list without script name
-arg_passed = sys.argv[1:]
 # Initialization of some variables
 filename = ''
 files_to_compute = ''
 dico_fasta = {}
 nodes = []
 edges = []
-# Display help if asked
-# if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
-#     displayHelp()
+cut_off = args.threshold
 # If -a or --all argument is detected, this script will search in current directory all fasta files
 if args.all:
     # Search for all fasta file(s) in current directory
@@ -45,15 +48,13 @@ if args.all:
             print(files)
         print('\n')
 
-# Check if a fasta filename has been passed
-if re.search('.fasta', str(arg_passed)) or re.search('.fa', str(arg_passed)):
+
+if args.file:
     # Save filename given as a list
-    files_to_compute = [arg_passed[0]]
+    files_to_compute = args.file
 
 # If no informations were passed to script, he try to get a fasta file in current directory
 if dico_fasta == {} and not files_to_compute:
-    # Module permitting to get current directory
-    import os
     # Get path where script is executed
     cwd = os.getcwd()
     # Inform user what script will do
@@ -80,11 +81,11 @@ for file in files_to_compute:
     # Get data from fasta file(s)
     dico_fasta = getFasta(file)
     # Alignment of sequences from fasta file
-    alignments = alignSequences(dico_fasta, arg_passed, file)
+    alignments = alignSequences(dico_fasta, args, file, cut_off)
     # Parsing of results
 
     # If user ask to concatenate graphs
-    if re.search('-e', str(arg_passed)) or re.search('--concatenate', str(arg_passed)):
+    if args.concatenate:
         nodes += alignments[0]
         edges += alignments[1]
     # Else a different graph is construct for each fasta file
@@ -96,6 +97,6 @@ for file in files_to_compute:
     # Create a networkX graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
-    displayAndSaveGraph(arg_passed, file, cut_off, G)
+    displayAndSaveGraph(args, file, cut_off, G)
 
 print('Job done, script will exit')

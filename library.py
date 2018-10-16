@@ -4,6 +4,7 @@
 
 # Library of functions for script_python.py
 
+
 # This function search fasta files in current directory
 
 
@@ -44,7 +45,7 @@ def getFasta(file):
 # This function align sequences by pair using pairwise 2 and save score of this alignment. It will return a dictionary containing names of sequences aligned and associated score
 
 
-def alignSequences(dico_fasta, arg_passed, name_of_file):
+def alignSequences(dico_fasta, args, name_of_file, cut_off):
     # Understanding functions of this package
     #     Source: http://biopython.org/DIST/docs/api/Bio.pairwise2-module.html
     # For configurations:
@@ -60,13 +61,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
     # Generate lists in order to save results
     edges = []
     nodes = []
-    # Check if -c has been passed
-    if re.search('-c', str(arg_passed)) or re.search('--cut_off', str(arg_passed)):
-        # Get cut off passed by saving argument just after -c and trans type it into float
-        cut_off = float(arg_passed[arg_passed.index('-c') + 1])
-    else:
-        # Give a default value for cut off if user don't ask for a particular threshold
-        cut_off = 100
+
     print('Script will select alignments with a score above: ' + str(cut_off))
     # Select a sequence from dictionary
     for key in dico_fasta.keys():
@@ -78,7 +73,7 @@ def alignSequences(dico_fasta, arg_passed, name_of_file):
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
                 # If user ask for save alignments using -s argument
-                if re.search('-s', str(arg_passed)) or re.search('--save', str(arg_passed)):
+                if args.save:
                     try:
                         # Make a directory to save output alignments
                         os.mkdir('output_sequences')
@@ -163,7 +158,7 @@ def createGraph(nodes, edges):
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
 
 
-def displayAndSaveGraph(arg_passed, name_of_file, cut_off, G):
+def displayAndSaveGraph(args, name_of_file, cut_off, G):
     import matplotlib.pyplot as plt
     import re
     import os
@@ -180,19 +175,19 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off, G):
     # Double height and width of graph
     plt.gcf().set_size_inches(height * 2, width * 2)
     # Check if user ask for default configuration
-    if re.search('-d', str(arg_passed)) or re.search('--default', str(arg_passed)):
+    if args.default:
         # Give a default directory name
         directory_choice = 'output_figures'
         # Get base name
         base = os.path.basename(name_of_file)
         name = os.path.splitext(base)[0] + '.gexf'
         # Call function that will create directory and output pdf
-        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed)
+        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, args)
     else:
         # Ask user for pdf's name
         name = input(
             'Please give a name for output file \n')
-        if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
+        if args.png:
             # Add png extension
             name = name + '.png'
         else:
@@ -201,7 +196,7 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off, G):
         # Ask user for a directory to save pdf
         directory_choice = input(
             'Where do you want to save {}? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
-        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed)
+        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, args)
     # User can display immediately graph if desired
     choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
         name, my_path))
@@ -218,7 +213,7 @@ def displayAndSaveGraph(arg_passed, name_of_file, cut_off, G):
 # This function permit to create a directory and save output pdf file in it
 
 
-def createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed):
+def createDirectoryAndOutputGraph(directory_choice, name, G, args):
     import matplotlib.pyplot as plt
     import re
     import os
@@ -243,7 +238,7 @@ def createDirectoryAndOutputGraph(directory_choice, name, G, arg_passed):
     # First path is concatenate with pdf's name wanted
     my_path = os.path.join(my_path, name)
     # Try to save in a different format than gexf
-    if re.search('-p', str(arg_passed)) or re.search('--png', str(arg_passed)):
+    if args.png:
         try:
             plt.savefig(my_path,
                         bbox_inches="tight", bbox_extra_artists=[])
