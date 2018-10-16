@@ -14,6 +14,14 @@ from library import *
 import sys
 # Permit to perform regular expressions
 import re
+
+import argparse
+parser = argparse.ArgumentParser()
+# parser.add_argument("-c", , "--treshold" help="display a square of a given number",
+#                     type=int)
+parser.add_argument("-a", "--all", help="concatenate graphs from different fasta files into one", action="store_true")
+args = parser.parse_args()
+
 # Save argument(s) passed as list without script name
 arg_passed = sys.argv[1:]
 # Initialization of some variables
@@ -23,10 +31,10 @@ dico_fasta = {}
 nodes = []
 edges = []
 # Display help if asked
-if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
-    displayHelp()
+# if re.search('-h', str(arg_passed)) or re.search('--help', str(arg_passed)):
+#     displayHelp()
 # If -a or --all argument is detected, this script will search in current directory all fasta files
-if re.search('-a', str(arg_passed)) or re.search('--all', str(arg_passed)):
+if args.all:
     # Search for all fasta file(s) in current directory
     files_to_compute = getFastaFiles()
     if files_to_compute:
