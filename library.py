@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
-
+# TODO: faire un check complet
 # Library of functions for script_python.py
 
 # This function search fasta files in current directory
