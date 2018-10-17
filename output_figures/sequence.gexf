@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf version="1.2" xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static" name="">
+    <meta>
+      <creator>NetworkX 2.1</creator>
+      <lastmodified>17/10/2018</lastmodified>
+    </meta>
+    <nodes>
+      <node id="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" label="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" />
+      <node id="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" label="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" />
+      <node id="K02233.1 Guinea pig insulin gene, complete cds&#10;" label="K02233.1 Guinea pig insulin gene, complete cds&#10;" />
+      <node id="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" label="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" />
+      <node id="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" label="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" />
+      <node id="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" label="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" />
+      <node id="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" label="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" />
+    </nodes>
+    <edges>
+      <edge id="0" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" weight="107.8" />
+      <edge id="1" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="K02233.1 Guinea pig insulin gene, complete cds&#10;" weight="2129.0" />
+      <edge id="2" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" weight="886.0" />
+      <edge id="3" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" weight="462.7" />
+      <edge id="4" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" weight="1372.0" />
+      <edge id="5" source="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" target="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" weight="5843.0" />
+      <edge id="6" source="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" target="K02233.1 Guinea pig insulin gene, complete cds&#10;" weight="352.4" />
+      <edge id="7" source="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" target="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" weight="383.6" />
+      <edge id="8" source="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" target="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" weight="335.1" />
+      <edge id="9" source="M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds&#10;" target="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" weight="372.0" />
+      <edge id="10" source="K02233.1 Guinea pig insulin gene, complete cds&#10;" target="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" weight="980.4" />
+      <edge id="11" source="K02233.1 Guinea pig insulin gene, complete cds&#10;" target="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" weight="676.3" />
+      <edge id="12" source="K02233.1 Guinea pig insulin gene, complete cds&#10;" target="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" weight="1203.0" />
+      <edge id="13" source="K02233.1 Guinea pig insulin gene, complete cds&#10;" target="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" weight="2235.6" />
+      <edge id="14" source="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" target="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" weight="619.5" />
+      <edge id="15" source="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" target="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" weight="803.4" />
+      <edge id="16" source="XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA&#10;" target="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" weight="809.2" />
+      <edge id="17" source="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" target="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" weight="624.1" />
+      <edge id="18" source="M57671.1 Octodon degus insulin mRNA, complete cds&#10;" target="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" weight="370.3" />
+      <edge id="19" source="NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA&#10;" target="AH002844.2 Homo sapiens insulin (INS) gene, complete cds&#10;" weight="1370.2" />
+    </edges>
+  </graph>
+</gexf>
