@@ -271,14 +271,12 @@ def displayD3(G):
     import networkx as nx
     from networkx.readwrite import json_graph
 
-    G = nx.barbell_graph(6, 3)
-    # this d3 example uses the name attribute for the mouse-hover value,
-    # so add a name to each node
-    for n in G:
-        G.nodes[n]['name'] = n
     # write json formatted data
     #https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
     data_to_export = json_graph.node_link_data(G)  # node-link format to serialize
     # write json
-    json.dump(data_to_export, open('export_in_d3/output_json/network_graph.json', 'w'))
+
+    with open('export_in_d3/output_json/network_graph.json', 'w') as outfile1:
+        outfile1.write(json.dumps(json_graph.node_link_data(G)))
+
     print('Wrote node-link JSON data to force/force.json')
