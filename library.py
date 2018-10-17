@@ -181,46 +181,52 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
         # Get base name
         base = os.path.basename(name_of_file)
         name = os.path.splitext(base)[0] + '.gexf'
-        # Call function that will create directory and output pdf
-        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, args)
+        # Call function that will create directory
+        my_path = createDirectory(directory_choice, name)
+        # Save graph in gexf
+        my_path = createOutputGraph(my_path, args, G)
     else:
-        # Ask user for pdf's name
+        # Ask user for output name
         name = input(
             'Please give a name for output file \n')
         if args.png:
             # Add png extension
             name = name + '.png'
+        elif args.pdf:
+            # Add png extension
+            name = name + '.pdf'
         else:
             # Add pdf extension
             name = name + '.gexf'
-        # Ask user for a directory to save pdf
+        # Ask user for a directory to save output figure
         directory_choice = input(
             'Where do you want to save {}? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
-        my_path = createDirectoryAndOutputGraph(directory_choice, name, G, args)
+        my_path = createDirectory(directory_choice, name)
+        my_path = createOutputGraph(my_path, args, G)
     # User can display immediately graph if desired
     choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
         name, my_path))
     if choice == 'y':
         print('Script will exit when display window is close')
-        plt.show()
-        # Reset graph in case of a second graph coming
-        plt.gcf().clear()
+        if args.interactive:
+            displayD3(G)
+        else:
+            plt.show()
+            # Reset graph in case of a second graph coming
+            plt.gcf().clear()
     else:
         # Reset graph in case of a second graph coming
         plt.gcf().clear()
 
 
-# This function permit to create a directory and save output pdf file in it
+# This function permit to create a directory
 
 
-def createDirectoryAndOutputGraph(directory_choice, name, G, args):
-    import matplotlib.pyplot as plt
+def createDirectory(directory_choice, name):
     import re
     import os
-    import networkx as nx
     # Import errno to handle with errors during directory creation
     from errno import EEXIST
-    import os
     # Get current path and add sub directory name
     # Get current directory path
     my_path = os.getcwd() + '/' + directory_choice
@@ -237,8 +243,15 @@ def createDirectoryAndOutputGraph(directory_choice, name, G, args):
     # If no exceptions are raised pdf is saved in new sub directory
     # First path is concatenate with pdf's name wanted
     my_path = os.path.join(my_path, name)
+    return my_path
+
+
+def createOutputGraph(my_path, args, G):
+    import matplotlib.pyplot as plt
+    import networkx as nx
+
     # Try to save in a different format than gexf
-    if args.png:
+    if args.png or args.pdf:
         try:
             plt.savefig(my_path,
                         bbox_inches="tight", bbox_extra_artists=[])
@@ -251,11 +264,30 @@ def createDirectoryAndOutputGraph(directory_choice, name, G, args):
             print('Can\'t save graph \n')
     return my_path
 
-# Display help if user ask for it
 
+def displayD3(G):
+    import json
+    import flask
+    import networkx as nx
+    from networkx.readwrite import json_graph
 
-def displayHelp():
-    wait = input(
-        'This script was designed to construct a graph a similarity between different DNA sequences\n')
-    wait = input('List of possibles arguments and their effects:\n\n -a or -all to ask script to work on all fasta files from current directory\n You can give as argument a name or path of a fasta file that you want to compute\n -s or --save to save alignments in a text file\n -c to give a numeric value working as a cut off\n -d or --default to let the script choose for output file and directory names\n -e or --concatenate to concatenate graphs from different fasta files into one\n -p or --png to ask to save output graph in png\n -h or --help to display a help message\n\n Examples of call:\n./script_python.py -a -d to ask script to work on all fasta files with default configuration\n./script_python.py fasta_files/sequence.fasta -s to align all sequences from sequence.fasta with default cut off (100). Alignments produced will be saved in output_sequence.txt\n./script_python.py -a -c 200 Execute this script on all fasta files of current directory with 200 as cut off.\n')
-    exit()
+    G = nx.barbell_graph(6, 3)
+    # this d3 example uses the name attribute for the mouse-hover value,
+    # so add a name to each node
+    for n in G:
+        G.nodes[n]['name'] = n
+    # write json formatted data
+    d = json_graph.node_link_data(G)  # node-link format to serialize
+    # write json
+    json.dump(d, open('output_json/force.json', 'w'))
+    print('Wrote node-link JSON data to force/force.json')
+
+    # Serve the file over http to allow for cross origin requests
+    app = flask.Flask(__name__, static_folder="force")
+
+    @app.route('/<path:path>')
+    def static_proxy(path):
+        return app.send_static_file(path)
+
+    print('\nGo to http://localhost:8000/force.html to see the example\n')
+    app.run(port=8000)

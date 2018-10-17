@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
-# TODO: argparse
-# TODO: mettre en place un juptyter
+
 # TODO: export in javascript??
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
@@ -28,6 +27,7 @@ parser.add_argument("-c", "--threshold", help="give a numeric value working as a
 parser.add_argument("-d", "--default", help="let script choose for output file and directory names", action="store_true")
 parser.add_argument("-p", "--png", help="ask to save output graph in png", action="store_true")
 parser.add_argument("-m", "--pdf", help="ask to save output graph in pdf", action="store_true")
+parser.add_argument("-i", "--interactive", help="ask to display with D3", action="store_true")
 
 args = parser.parse_args()
 
