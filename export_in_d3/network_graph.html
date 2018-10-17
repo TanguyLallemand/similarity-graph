@@ -73,7 +73,11 @@ And Adapted for python_align by Tanguy Lallemand
                 return d.colour;
             })
             .on("mouseover", mouseOver(.2))
-            .on("mouseout", mouseOut);
+            .on("mouseout", mouseOut)
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
 
         // hover text for the node
         node.append("title")
@@ -92,11 +96,7 @@ And Adapted for python_align by Tanguy Lallemand
             .style("stroke-width", 0.5)
             .style("fill", function(d) {
                 return d.colour;
-            })
-            .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+            });
 
         // add the nodes to the simulation and
         // tell it what to do on each tick

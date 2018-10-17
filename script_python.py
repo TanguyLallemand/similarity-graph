@@ -3,7 +3,7 @@
 # Author: Tanguy Lallemand M2 BB
 
 
-# TODO: export in javascript??
+# TODO: finish readme
 
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
