@@ -36,7 +36,7 @@ parser.add_argument(
 parser.add_argument(
     "-m", "--pdf", help="ask to save output graph in pdf", action="store_true")
 parser.add_argument("-i", "--interactive",
-                    help="ask to display with D3", action="store_true")
+                    help="Ask to display an interactive graph in a web browser with D3.js", action="store_true")
 
 args = parser.parse_args()
 
