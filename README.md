@@ -2,18 +2,42 @@
 
 Python_align is a python script permitting to construct a network graph based on similarity between different DNA sequences from a fasta file. All files necessary are accessible on this [repository](https://bitbucket.org/TanguyLallemand/python_align/src/master/)
 
+
+##Why this script is particular?
+
+Save in multiple format.
+fully modular script so it s quite easy to change configuration following needs of a particular experience.
+
+##How this script was configured
+
+Python_align works based on a Biopython alignment function called Pairwise. This function is powerful and allows a fine configuration to meet various needs. Here is how Pairwise was configured for this algorithm.
+
+Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
+We need to configure global alignment function to perform alignment as wanted.
+To do it we can give two parameters:
+  - First parameter set up matches and mismatches. We give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code)
+  - Second set up gaps.  Moreover, same gap penalties are applied on both sequences (s code).
+For calculate score, we can add supplementary parameters.
+  - Match score: 2
+  - Mismatch score: -1
+  - Opening Gap: -0.5
+  - Extending Gap: -0.1
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
-In order to run this script some python packages are necessary. List of package in python environment is contained in this [file](<Packages_used_for_virtual env/python_environment_used.txt>) (You can get it in Packages_used_for_virtual env/python_environment_used.txt).
+In order to run this script some python packages are necessary. List of packages necessary for this environment is contained in this [file](<Packages_used_for_virtual env/python_environment_used.txt>) (You can get it in Packages_used_for_virtual env/python_environment_used.txt).
 
 ### Installing
 
 First you need to create a virtual environment for this script using these lines:
-
+    conda env create -f python_align.yml # Create a conda environment
+    source activate <env> # Activate this environment to execute script in it
+or you can use alternatively
     conda create --name <env> --file python_environment_used.txt # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
 
@@ -72,17 +96,3 @@ Here is an example of an output graph:
 ## Author
 
 -   **Tanguy Lallemand**, M2BB
-
-##Theorie
-
-Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
-We need to configure global alignment function to perform alignment as wanted.
-To do it we can give two parameters:
-  - First parameter set up matches and mismatches.
-  - Second set up gaps.
-For this script, we give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code). Moreover, same gap penalties are applied on both sequences (s code).
-For calculate score, we can add supplementary parameters.
-  - Match score: 2
-  - Mismatch score: -1
-  - Opening Gap: -0.5
-  - Extending Gap: -0.1
