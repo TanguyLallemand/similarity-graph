@@ -277,17 +277,8 @@ def displayD3(G):
     for n in G:
         G.nodes[n]['name'] = n
     # write json formatted data
-    d = json_graph.node_link_data(G)  # node-link format to serialize
+    #https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
+    data_to_export = json_graph.node_link_data(G)  # node-link format to serialize
     # write json
-    json.dump(d, open('output_json/force.json', 'w'))
+    json.dump(data_to_export, open('export_in_d3/output_json/network_graph.json', 'w'))
     print('Wrote node-link JSON data to force/force.json')
-
-    # Serve the file over http to allow for cross origin requests
-    app = flask.Flask(__name__, static_folder="force")
-
-    @app.route('/<path:path>')
-    def static_proxy(path):
-        return app.send_static_file(path)
-
-    print('\nGo to http://localhost:8000/force.html to see the example\n')
-    app.run(port=8000)
