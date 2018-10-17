@@ -267,16 +267,11 @@ def createOutputGraph(my_path, args, G):
 
 def displayD3(G):
     import json
-    import flask
-    import networkx as nx
     from networkx.readwrite import json_graph
 
     # write json formatted data
     #https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
-    data_to_export = json_graph.node_link_data(G)  # node-link format to serialize
-    # write json
+    with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
+        jsonFile.write(json.dumps(json_graph.node_link_data(G))) # node-link format to serialize
 
-    with open('export_in_d3/output_json/network_graph.json', 'w') as outfile1:
-        outfile1.write(json.dumps(json_graph.node_link_data(G)))
-
-    print('Wrote node-link JSON data to force/force.json')
+    print('Json saved in ./export_in_d3/network_graph_data.json')
