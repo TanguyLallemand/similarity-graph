@@ -101,7 +101,7 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
                 if keys2 not in nodes:
                     nodes.append(key)
     # Return dictionary containing results
-    return [nodes, edges, cut_off]
+    return [nodes, edges]
 
 
 # Function to create a graph from reliable alignments results
@@ -203,23 +203,28 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
             'Where do you want to save {}? \nGive a name for a sub directory \nIf leaved blank it will be saved in current directory\n'.format(name))
         my_path = createDirectory(directory_choice, name)
         my_path = createOutputGraph(my_path, args, G)
-    # User can display immediately graph if desired
-    choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
-        name, my_path))
-    if choice == 'y':
-        print('Script will exit when display window is close')
-        if args.interactive:
-            displayD3(G)
-        else:
+
+    if args.interactive:
+        createJSON(G)
+        response = input('Do you want to display it in your browser? (y|n)\n')
+        if response == 'y':
+            name = 'export_in_d3/network_graph.html'
+            displayD3(name)
+    else:
+        # User can display immediately graph if desired
+        choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(
+            name, my_path))
+        if choice == 'y':
+            print('Script will exit when display window is close')
             plt.show()
             # Reset graph in case of a second graph coming
             plt.gcf().clear()
-    else:
-        # Reset graph in case of a second graph coming
-        plt.gcf().clear()
+        else:
+            # Reset graph in case of a second graph coming
+            plt.gcf().clear()
 
 
-# This function permit to create a directory
+# Function permitting to create a directory following user's instructions
 
 
 def createDirectory(directory_choice, name):
@@ -246,11 +251,14 @@ def createDirectory(directory_choice, name):
     return my_path
 
 
+# This function permit to create an output file using G object from networkX and a path. This function will return path where file was created
+
+
 def createOutputGraph(my_path, args, G):
     import matplotlib.pyplot as plt
     import networkx as nx
 
-    # Try to save in a different format than gexf
+    # Following the user's instructions the graph is saved in a particular format
     if args.png or args.pdf:
         try:
             plt.savefig(my_path,
@@ -264,14 +272,25 @@ def createOutputGraph(my_path, args, G):
             print('Can\'t save graph \n')
     return my_path
 
+# This function will create a json using G object from networkX
 
-def displayD3(G):
+
+def createJSON(G):
     import json
     from networkx.readwrite import json_graph
 
     # write json formatted data
-    #https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
+    # Source : https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
     with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
-        jsonFile.write(json.dumps(json_graph.node_link_data(G))) # node-link format to serialize
+        # node-link format to serialize
+        jsonFile.write(json.dumps(json_graph.node_link_data(G)))
 
-    print('Json saved in ./export_in_d3/network_graph_data.json')
+    print('Json saved in ./export_in_d3/network_graph_data.json \n')
+
+
+def displayD3(name):
+
+    # Source: https://stackoverflow.com/questions/22004498/webbrowser-open-in-python
+    import webbrowser
+    import os
+    webbrowser.open('file://' + os.path.realpath(name))

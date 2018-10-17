@@ -17,17 +17,26 @@ import re
 import os
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("-a", "--all", help="ask script to get all fasta files from current directory", action="store_true")
-#Store path or filename given as a list
-parser.add_argument("-f", "--file", help="give a path or a filename of a fasta file", action='append')
-parser.add_argument("-s", "--save", help="save alignments in a text file", action="store_true")
-parser.add_argument("-e", "--concatenate", help="concatenate graphs from different fasta files into one", action="store_true")
-#Wait for a number, if nothing is given add a default value
-parser.add_argument("-c", "--threshold", help="give a numeric value working as a cut off", type=float , nargs='?', default=100)
-parser.add_argument("-d", "--default", help="let script choose for output file and directory names", action="store_true")
-parser.add_argument("-p", "--png", help="ask to save output graph in png", action="store_true")
-parser.add_argument("-m", "--pdf", help="ask to save output graph in pdf", action="store_true")
-parser.add_argument("-i", "--interactive", help="ask to display with D3", action="store_true")
+parser.add_argument(
+    "-a", "--all", help="ask script to get all fasta files from current directory", action="store_true")
+# Store path or filename given as a list
+parser.add_argument(
+    "-f", "--file", help="give a path or a filename of a fasta file", action='append')
+parser.add_argument(
+    "-s", "--save", help="save alignments in a text file", action="store_true")
+parser.add_argument("-e", "--concatenate",
+                    help="concatenate graphs from different fasta files into one", action="store_true")
+# Wait for a number, if nothing is given add a default value
+parser.add_argument("-c", "--threshold", help="give a numeric value working as a cut off",
+                    type=float, nargs='?', default=100)
+parser.add_argument(
+    "-d", "--default", help="let script choose for output file and directory names", action="store_true")
+parser.add_argument(
+    "-p", "--png", help="ask to save output graph in png", action="store_true")
+parser.add_argument(
+    "-m", "--pdf", help="ask to save output graph in pdf", action="store_true")
+parser.add_argument("-i", "--interactive",
+                    help="ask to display with D3", action="store_true")
 
 args = parser.parse_args()
 
@@ -37,6 +46,7 @@ files_to_compute = ''
 dico_fasta = {}
 nodes = []
 edges = []
+# Get threshold given as argument
 cut_off = args.threshold
 # If -a or --all argument is detected, this script will search in current directory all fasta files
 if args.all:
@@ -94,8 +104,7 @@ for file in files_to_compute:
     else:
         nodes = alignments[0]
         edges = alignments[1]
-    # Get threshold
-    cut_off = alignments[2]
+
     # Create a networkX graph object
     G = createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
