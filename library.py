@@ -282,15 +282,15 @@ def createJSON(G, width, height):
     from networkx.readwrite import json_graph
 
     #Prepare data to write in jsonFile
-    data = {}
-    data['width:'] = width
-    data['height:'] = height
+    # data = {}
+    # data['width:'] = width
+    # data['height:'] = height
     # write json formatted data
     # Source : https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
     with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
         # node-link format to serialize
         jsonFile.write(json.dumps(json_graph.node_link_data(G), indent=4))
-        jsonFile.write(json.dumps(data, indent=4))
+        # jsonFile.write(json.dumps(data, indent=4))
 
     print('Json saved in ./export_in_d3/network_graph_data.json \n')
 

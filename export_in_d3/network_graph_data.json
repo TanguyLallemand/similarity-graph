@@ -4,51 +4,127 @@
     "graph": {},
     "nodes": [
         {
-            "id": "NM_001300312.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant C, mRNA\n"
+            "id": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n"
         },
         {
-            "id": "NM_001201049.1 Ictalurus punctatus troponin C slow skeletal and cardiac muscles (tnnc1), mRNA\n"
+            "id": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n"
         },
         {
-            "id": "NM_001275455.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant B, mRNA\n"
+            "id": "K02233.1 Guinea pig insulin gene, complete cds\n"
         },
         {
-            "id": "NM_141564.4 Drosophila melanogaster numerous disordered muscles (nom), transcript variant A, mRNA\n"
+            "id": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n"
+        },
+        {
+            "id": "M57671.1 Octodon degus insulin mRNA, complete cds\n"
+        },
+        {
+            "id": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
+        },
+        {
+            "id": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
         }
     ],
     "links": [
         {
-            "weight": 1013.0,
-            "source": "NM_001300312.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant C, mRNA\n",
-            "target": "NM_001201049.1 Ictalurus punctatus troponin C slow skeletal and cardiac muscles (tnnc1), mRNA\n"
+            "weight": 107.8,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n"
         },
         {
-            "weight": 3122.3,
-            "source": "NM_001300312.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant C, mRNA\n",
-            "target": "NM_001275455.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant B, mRNA\n"
+            "weight": 2129.0,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "K02233.1 Guinea pig insulin gene, complete cds\n"
         },
         {
-            "weight": 2404.1,
-            "source": "NM_001300312.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant C, mRNA\n",
-            "target": "NM_141564.4 Drosophila melanogaster numerous disordered muscles (nom), transcript variant A, mRNA\n"
+            "weight": 886.0,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n"
         },
         {
-            "weight": 980.7,
-            "source": "NM_001201049.1 Ictalurus punctatus troponin C slow skeletal and cardiac muscles (tnnc1), mRNA\n",
-            "target": "NM_001275455.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant B, mRNA\n"
+            "weight": 462.7,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "M57671.1 Octodon degus insulin mRNA, complete cds\n"
         },
         {
-            "weight": 917.3,
-            "source": "NM_001201049.1 Ictalurus punctatus troponin C slow skeletal and cardiac muscles (tnnc1), mRNA\n",
-            "target": "NM_141564.4 Drosophila melanogaster numerous disordered muscles (nom), transcript variant A, mRNA\n"
+            "weight": 1372.0,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
         },
         {
-            "weight": 2435.4,
-            "source": "NM_001275455.1 Drosophila melanogaster numerous disordered muscles (nom), transcript variant B, mRNA\n",
-            "target": "NM_141564.4 Drosophila melanogaster numerous disordered muscles (nom), transcript variant A, mRNA\n"
+            "weight": 5843.0,
+            "source": "M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region\n",
+            "target": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
+        },
+        {
+            "weight": 352.4,
+            "source": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n",
+            "target": "K02233.1 Guinea pig insulin gene, complete cds\n"
+        },
+        {
+            "weight": 383.6,
+            "source": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n",
+            "target": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n"
+        },
+        {
+            "weight": 335.1,
+            "source": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n",
+            "target": "M57671.1 Octodon degus insulin mRNA, complete cds\n"
+        },
+        {
+            "weight": 372.0,
+            "source": "M61153.1 Oryctolagus cuniculus insulin mRNA, partial cds\n",
+            "target": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
+        },
+        {
+            "weight": 980.4,
+            "source": "K02233.1 Guinea pig insulin gene, complete cds\n",
+            "target": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n"
+        },
+        {
+            "weight": 676.3,
+            "source": "K02233.1 Guinea pig insulin gene, complete cds\n",
+            "target": "M57671.1 Octodon degus insulin mRNA, complete cds\n"
+        },
+        {
+            "weight": 1203.0,
+            "source": "K02233.1 Guinea pig insulin gene, complete cds\n",
+            "target": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
+        },
+        {
+            "weight": 2235.6,
+            "source": "K02233.1 Guinea pig insulin gene, complete cds\n",
+            "target": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
+        },
+        {
+            "weight": 619.5,
+            "source": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n",
+            "target": "M57671.1 Octodon degus insulin mRNA, complete cds\n"
+        },
+        {
+            "weight": 803.4,
+            "source": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n",
+            "target": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
+        },
+        {
+            "weight": 809.2,
+            "source": "XM_014533102.1 PREDICTED: Myotis brandtii insulin (LOC102254396), mRNA\n",
+            "target": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
+        },
+        {
+            "weight": 624.1,
+            "source": "M57671.1 Octodon degus insulin mRNA, complete cds\n",
+            "target": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n"
+        },
+        {
+            "weight": 370.3,
+            "source": "M57671.1 Octodon degus insulin mRNA, complete cds\n",
+            "target": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
+        },
+        {
+            "weight": 1370.2,
+            "source": "NM_001204686.1 Aplysia californica insulin precursor (PIN), mRNA\n",
+            "target": "AH002844.2 Homo sapiens insulin (INS) gene, complete cds\n"
         }
     ]
-}{
-    "width:": 9.6,
-    "height:": 12.8
 }
