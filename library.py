@@ -72,25 +72,6 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
                 # Perform alignment
                 align = pairwise2.align.globalms(
                     dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1, score_only=True)
-                # If user ask for save alignments using -s argument
-                if args.save:
-                    try:
-                        # Make a directory to save output alignments
-                        os.mkdir('output_sequences')
-                    except:
-                        # If an exception is raised creating directory script will follow
-                        pass
-                    # Determine name of output file
-                    base = os.path.basename(name_of_file)
-                    # Get name without extension
-                    name = os.path.splitext(base)[0]
-                    # Create final path
-                    name_of_output = 'output_sequences/output_' + \
-                        os.path.splitext(name)[0] + '.txt'
-                    # Create a output file in write mode
-                    with open(name_of_output, 'w') as output:
-                        for a in pairwise2.align.globalms(dico_fasta[key], dico_fasta[keys2], 2, -1, -.5, -.1):
-                            output.write(format_alignment(*a))
                 # Add alignments if they are sufficiently reliable
                 if align > cut_off:
                     # add tuple to alignments
@@ -281,7 +262,7 @@ def createJSON(G, width, height):
     import json
     from networkx.readwrite import json_graph
 
-    #Prepare data to write in jsonFile
+    # Prepare data to write in jsonFile
     # data = {}
     # data['width:'] = width
     # data['height:'] = height
