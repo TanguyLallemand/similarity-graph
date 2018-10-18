@@ -40,9 +40,12 @@ In order to run this script some python packages are necessary. List of packages
 ### Installing
 
 First you need to create a virtual environment for this script using these lines:
+
     conda env create -f python_align.yml # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
-or you can use alternatively
+
+Or you can use alternatively
+
     conda create --name <env> --file python_environment_used.txt # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
 
@@ -62,30 +65,39 @@ To adjust what you want from script, it is possible to add some flags to script 
 
 List of possibles arguments and their effects:
 
-    -a or -all to ask script to get all fasta files from current directory
-    -c to give a numeric value working as a cut off
-    -d or --default to let script choose for output file and directory names
-    -e or --concatenate to concatenate graphs from different fasta files into one
-    -p or --png to ask to save output graph in png
-    -m or --pdf to ask to save output graph in pdf
-    -s or --save to save alignments in a text file
-    -i or --interactive to ask to display an interactive graph in a web browser with D3.js
-    -h or --help to display a help message
+    usage: python_align.py [-h] [-a] [-f FILE] [-e] [-c [THRESHOLD]] [-d] [-p]
+                       [-m] [-i]
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    -a, --all             Ask script to get all fasta files from current
+                        directory
+
+    -f FILE, --file FILE  Give a path or filename of a fasta file
+    -e, --concatenate     Concatenate graphs from different fasta files into one
+                        graph
+    -c [THRESHOLD], --threshold [THRESHOLD]
+                        Give a numeric value as threshold to select or not an
+                        alignement
+    -d, --default         Let script choose for output file and directory names
+    -p, --png             Ask to save output graph in png
+    -m, --pdf             Ask to save output graph in pdf
+    -i, --interactive     Ask to display an interactive graph in a web browser
+                        with D3.js
 
 
-You can also give as argument a name or path of a fasta file that you want to compute. Example: sequence.fasta or sub directory\sequence.fasta.
-Please be careful, if script is called with a fasta file given as argument, flags must be after filename
+
 ### Examples of call:
 
-     ./script_python.py -a -d
+     ./python_align.py -a -d
 
 To ask script to work on all fasta files with default configuration
 
-     ./script_python.py -f fasta_files/sequence.fasta -i
+     ./python_align.py -f fasta_files/sequence.fasta -i
 
  To align all sequences from sequences.fasta with default cut off (100). Output graph will be visualized in a web browser.
 
-    ./script_python.py -a -c 200 --pdf
+    ./python_align.py -a -c 200 --pdf
 
  Execute this script on all fasta files of current directory with 200 as cut off. Each results will be saved in pdf format
 
@@ -95,7 +107,7 @@ This repository contain some examples of expected output graph. They were genera
 Here is an example of an output graph:
 ![Output Example sequences in png](output_figures/sequence.png)
 
-Moreover, it is possible to ask script to generate a json file that will be used by a script written in JavaScript to display an interactive version of graph.
+Moreover, it is possible to ask script to generate a Json file that will be used by a script written in JavaScript to display an interactive version of graph.
 Here is some screenshots of what is possible to display in your favorite browser. You can display entire graph or just highlight links from a particular node.
 ![Output Example sequences seen in a web browser](output_figures/example_output_graph_in_web_browser.png)
 
@@ -103,7 +115,7 @@ Here is some screenshots of what is possible to display in your favorite browser
 
 -   [Anaconda](https://www.anaconda.com/) - Environment management
 -   [Networkx](https://networkx.github.io/) - Python library used to generate network graph
-
+-   [Force Directed Graph by Martin Chorley](https://bl.ocks.org/martinjc/7aa53c7bf3e411238ac8aef280bd6581) - A force directed graph built with D3.js
 ## Author
 
 -   **Tanguy Lallemand**, M2BB
