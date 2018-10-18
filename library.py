@@ -205,7 +205,9 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
         my_path = createOutputGraph(my_path, args, G)
 
     if args.interactive:
-        createJSON(G)
+        width = width * 2
+        height = height * 2
+        createJSON(G, width, height)
         response = input('Do you want to display it in your browser? (y|n)\n')
         if response == 'y':
             name = 'export_in_d3/network_graph.html'
@@ -275,15 +277,20 @@ def createOutputGraph(my_path, args, G):
 # This function will create a json using G object from networkX
 
 
-def createJSON(G):
+def createJSON(G, width, height):
     import json
     from networkx.readwrite import json_graph
 
+    #Prepare data to write in jsonFile
+    data = {}
+    data['width:'] = width
+    data['height:'] = height
     # write json formatted data
     # Source : https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
     with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
         # node-link format to serialize
-        jsonFile.write(json.dumps(json_graph.node_link_data(G)))
+        jsonFile.write(json.dumps(json_graph.node_link_data(G), indent=4))
+        jsonFile.write(json.dumps(data, indent=4))
 
     print('Json saved in ./export_in_d3/network_graph_data.json \n')
 
@@ -291,6 +298,7 @@ def createJSON(G):
 def displayD3(name):
 
     # Source: https://stackoverflow.com/questions/22004498/webbrowser-open-in-python
+    # Open network_graph.html with a web browser to display network graph using JavaScript
     import webbrowser
     import os
     webbrowser.open('file://' + os.path.realpath(name))
