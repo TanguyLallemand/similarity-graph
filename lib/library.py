@@ -321,9 +321,9 @@ def createJSON(G, width, height, title):
 
     # Prepare data to write in jsonFile
     data = {}
-    data['width:'] = width
-    data['height:'] = height
-    data['title:'] = title
+    data['width'] = width
+    data['height'] = height
+    data['title'] = title
     # Add graph informations to object in construction
     data.update(json_graph.node_link_data(G))
     # write json formatted data
