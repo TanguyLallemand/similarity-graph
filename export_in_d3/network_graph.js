@@ -26,6 +26,16 @@ var simulation = d3.forceSimulation()
 d3.json("network_graph_data.json", function(error, graph) {
     if (error) throw error;
 
+    var width_from_json = graph.width;
+    var height_from_json = graph.height;
+    var title_from_json = graph.title;
+    svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 0 + 35)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text(title_from_json);
     // Get nodes
     var nodes = graph.nodes;
     // links between nodes
