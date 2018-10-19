@@ -6,27 +6,9 @@ Python_align is a python script permitting to construct a network graph based on
 ## Why this script is particular?
 
 
-### Features Implemented
-
-First of all, this script allows you to save your output graphs in different formats. It is of course possible to save it in gefx but also in png or pdf. In addition, it is possible to export the data in a json file and display an output graph in a web browser via a Javascript script. This allows to have beautiful graphics managed in d3.js with possible interactions. In addition, it is then possible to implement the result of the script in any web page.
+First of all, this script allows you to save your output graphs in different formats. It is of course possible to save it in gefx but also in png or pdf. In addition, it is possible to export the data in a json file and display an output graph in a web browser via a Javascript script. This allows to have beautiful graphics managed in d3.js with possible interactions. In addition, it is then possible to implement resulting output graph in any web page. To finish, json is a format very used, easy to parse so this file can be use in many different project.
 
 This script is a fully modular script so it is quite easy to change configuration following needs of a particular experience or adapt it to a bigger project.
-
-### Pairwise 2 particular configuration
-
-Python_align works based on a Biopython alignment function called Pairwise 2. This function is powerful and allows a fine configuration to meet various needs. Here is how Pairwise 2 was configured for this algorithm.
-
-Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
-We need to configure global alignment function to perform alignment as wanted.
-To do it we can give two parameters:
-  - First parameter set up matches and mismatches. We give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code)
-  - Second set up gaps.  Moreover, same gap penalties are applied on both sequences (s code).
-
-For calculate score supplementary parameters were added.
-  - Match score: 2
-  - Mismatch score: -1
-  - Opening Gap: -0.5
-  - Extending Gap: -0.1
 
 
 ## Getting Started
@@ -110,6 +92,24 @@ Here is an example of an output graph:
 Moreover, it is possible to ask script to generate a Json file that will be used by a script written in JavaScript to display an interactive version of graph.
 Here is some screenshots of what is possible to display in your favorite browser. You can display entire graph or just highlight links from a particular node.
 ![Output Example sequences seen in a web browser](output_figures/example_output_graph_in_web_browser.png)
+
+
+## Pairwise 2 particular configuration
+
+Python_align works based on a Biopython alignment function called Pairwise 2. This function is powerful and allows a fine configuration to meet various needs. Here is how Pairwise 2 was configured for this algorithm.
+
+Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
+We need to configure global alignment function to perform alignment as wanted.
+To do it we can give two parameters:
+  - First parameter set up matches and mismatches. We give a match score for identical chars, a mismatch score is given if characters are different (correspond to m code)
+  - Second set up gaps.  Moreover, same gap penalties are applied on both sequences (s code).
+
+For calculate score supplementary parameters were added.
+  - Match score: 2
+  - Mismatch score: -1
+  - Opening Gap: -0.5
+  - Extending Gap: -0.1
+
 
 ## Built With
 
