@@ -5,7 +5,7 @@
 # To get list of possible arguments and their effects please call script wit -h or --help argument
 
 # Import library containing all functions written for this project
-from library import *
+from lib import library
 # Permit to access to arguments passed to python script
 import sys
 # Permit to perform regular expressions
@@ -46,7 +46,7 @@ cut_off = args.threshold
 # If -a or --all argument is detected, this script will search in current directory all fasta files
 if args.all:
     # Search for all fasta file(s) in current directory
-    files_to_compute = getFastaFiles()
+    files_to_compute = library.getFastaFiles()
     if files_to_compute:
         # Verbose for user
         print('Script will work on thoses files: \n')
@@ -67,7 +67,7 @@ if dico_fasta == {} and not files_to_compute:
     # Inform user what script will do
     print('You don\'t ask for anything, script will display all fasta files from current directory ' + cwd + '\n')
     # Try to get a fasta file from current directory
-    files_to_compute = getFastaFiles()
+    files_to_compute = library.getFastaFiles()
     print('Script found these files in directory \n')
     # Print all fasta files detected
     for files in files_to_compute:
@@ -86,9 +86,9 @@ if dico_fasta == {} and not files_to_compute:
 
 for file in files_to_compute:
     # Get data from fasta file(s)
-    dico_fasta = getFasta(file)
+    dico_fasta = library.getFasta(file)
     # Alignment of sequences from fasta file
-    alignments = alignSequences(dico_fasta, args, file, cut_off)
+    alignments = library.alignSequences(dico_fasta, args, file, cut_off)
     # Parsing of results
 
     # If user ask to concatenate graphs
@@ -101,8 +101,8 @@ for file in files_to_compute:
         edges = alignments[1]
 
     # Create a networkX graph object
-    G = createGraph(nodes, edges)
+    G = library.createGraph(nodes, edges)
     # Function that will save and display graph as user ask. Script will give informations for user
-    displayAndSaveGraph(args, file, cut_off, G)
+    library.displayAndSaveGraph(args, file, cut_off, G)
 
 print('Job done, script will exit')
