@@ -4,31 +4,33 @@
 
 
 
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-
-
-
-var simulation = d3.forceSimulation()
-    // pull nodes together based on the links between them
-    .force("link", d3.forceLink().id(function(d) {
-            return d.id;
-        })
-        .strength(0.025))
-    // push nodes apart to space them out
-    .force("charge", d3.forceManyBody().strength(-200))
-    // add some collision detection so they don't overlap
-    .force("collide", d3.forceCollide().radius(12))
-    // and draw them around the centre of the SVG
-    .force("center", d3.forceCenter(width / 2, height / 2));
-
 d3.json("network_graph_data.json", function(error, graph) {
     if (error) throw error;
 
     var width_from_json = graph.width;
     var height_from_json = graph.height;
     var title_from_json = graph.title;
+
+
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    var svg = d3.select("svg").attr('viewBox', '0 0 ' + width + ' ' + height);
+
+
+    var simulation = d3.forceSimulation()
+        // pull nodes together based on the links between them
+        .force("link", d3.forceLink().id(function(d) {
+                return d.id;
+            })
+            .strength(0.025))
+        // push nodes apart to space them out
+        .force("charge", d3.forceManyBody().strength(-200))
+        // add some collision detection so they don't overlap
+        .force("collide", d3.forceCollide().radius(12))
+        // and draw them around the centre of the SVG
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    //Add a title recovered from json file
     svg.append("text")
         .attr("x", (width / 2))
         .attr("y", 0 + 35)
@@ -215,4 +217,6 @@ d3.json("network_graph_data.json", function(error, graph) {
         d.fx = null;
         d.fy = null;
     }
+
+
 });
