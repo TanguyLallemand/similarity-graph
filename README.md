@@ -93,6 +93,12 @@ Moreover, it is possible to ask script to generate a Json file that will be used
 Here is some screenshots of what is possible to display in your favorite browser. You can display entire graph or just highlight links from a particular node.
 ![Output Example sequences seen in a web browser](output_figures/example_output_graph_in_web_browser.png)
 
+## Some possible improvements
+
+This script is more a proof of concept than a script ready to deploy. In particular Javascript script need many improvements to be viable. In fact, resizing is not clean enough and many features are missing. Moreover, it is an adapted script found on internet with some piece of code written during my internship where I used d3.js to construct a force directed graph.
+But most important fact is that interface between the python script and javascript via a json file is fully functional.
+
+To finish, optimization need some improvements. In fact, if script get a fasta file with more than 15 long sequences it will take too much time to execute. In addition to that I noticed memory problems if you put a really long sequence.
 
 ## Pairwise 2 particular configuration
 
