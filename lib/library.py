@@ -2,8 +2,34 @@
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
-# Library of functions for script_python.py
+# Library of functions for python_align.py
 
+
+# This function will prepare arguments
+
+def getArguments():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-a", "--all", help="Ask script to get all fasta files from current directory", action="store_true")
+    # Store path or filename given as a list
+    parser.add_argument(
+        "-f", "--file", help="Give a path or filename of a fasta file", action='append')
+    parser.add_argument("-e", "--concatenate",
+                        help="Concatenate graphs from different fasta files into one graph", action="store_true")
+    # Wait for a number, if nothing is given add a default value
+    parser.add_argument("-c", "--threshold", help="Give a numeric value as threshold to select or not an alignement",
+                        type=float, nargs='?', default=100)
+    parser.add_argument(
+        "-d", "--default", help="Let script choose for output file and directory names", action="store_true")
+    parser.add_argument(
+        "-p", "--png", help="Ask to save output graph in png", action="store_true")
+    parser.add_argument(
+        "-m", "--pdf", help="Ask to save output graph in pdf", action="store_true")
+    parser.add_argument("-i", "--interactive",
+                        help="Ask to display an interactive graph in a web browser with D3.js", action="store_true")
+    args = parser.parse_args()
+    return args
 
 # This function search fasta files in current directory
 
@@ -17,6 +43,34 @@ def getFastaFiles():
     fasta_files += glob.glob('./*.fa')
     # Return results
     return fasta_files
+
+# This function try to get a fasta file to work on it
+
+
+def getAFastaFile():
+    # Module permitting to get current directory
+    import os
+    # Get path where script is executed
+    cwd = os.getcwd()
+    # Inform user what script will do
+    print('You don\'t ask for anything, script will display all fasta files from current directory ' + cwd + '\n')
+    # Try to get a fasta file from current directory
+    files_to_compute = getFastaFiles()
+    print('Script found these files in directory \n')
+    # Print all fasta files detected
+    for files in files_to_compute:
+        print(files)
+    print('\n')
+    # Ask user to choose between these files
+    filename = input(
+        'Please select one of those files or gi ve a path to a fasta file. If leave blank script will work on first of them\n')
+    # If user give a choice, save it as a list
+    if filename:
+        files_to_compute = [filename]
+    else:
+        # Get first fasta found and try to align sequences from it
+        files_to_compute = [files_to_compute[0]]
+        print('Script will work on ' + files_to_compute[0] + '\n')
 
 
 # This function open a fasta file and extract headers and associated sequences
@@ -146,9 +200,12 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
 
     # Hide axis on output graph
     plt.axis('off')
+    # Generate a title
+    title = 'Graph of similarity of sequences from ' + name_of_file + \
+        ' aligned with Pairwise 2 and filtered with a treshold of: ' + \
+            str(cut_off)
     # Add a title
-    plt.title('Graph of similarity of sequences from ' + name_of_file +
-              ' aligned with Pairwise 2 and filtered with a treshold of: ' + str(cut_off))
+    plt.title(title)
 
     # Get height and width of graph
     # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
@@ -188,7 +245,7 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
     if args.interactive:
         width = width * 2
         height = height * 2
-        createJSON(G, width, height)
+        createJSON(G, width, height, title)
         response = input('Do you want to display it in your browser? (y|n)\n')
         if response == 'y':
             name = 'export_in_d3/network_graph.html'
@@ -258,20 +315,23 @@ def createOutputGraph(my_path, args, G):
 # This function will create a json using G object from networkX
 
 
-def createJSON(G, width, height):
+def createJSON(G, width, height, title):
     import json
     from networkx.readwrite import json_graph
 
     # Prepare data to write in jsonFile
-    # data = {}
-    # data['width:'] = width
-    # data['height:'] = height
+    data = {}
+    data['width:'] = width
+    data['height:'] = height
+    data['title:'] = title
+    # Add graph informations to object in construction
+    data.update(json_graph.node_link_data(G))
     # write json formatted data
     # Source : https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
+    # Open in write mode json file
     with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
-        # node-link format to serialize
-        jsonFile.write(json.dumps(json_graph.node_link_data(G), indent=4))
-        # jsonFile.write(json.dumps(data, indent=4))
+        # Write data in json file
+        jsonFile.write(json.dumps(data, indent=4))
 
     print('Json saved in ./export_in_d3/network_graph_data.json \n')
 
