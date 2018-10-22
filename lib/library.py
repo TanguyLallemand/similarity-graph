@@ -61,17 +61,20 @@ def getAFastaFile():
     for files in files_to_compute:
         print(files)
     print('\n')
-    # Ask user to choose between these files
-    filename = input(
-        'Please select one of those files or gi ve a path to a fasta file. If leave blank script will work on first of them\n')
-    # If user give a choice, save it as a list
-    if filename:
-        files_to_compute = [filename]
+    if files_to_compute:
+        # Ask user to choose between these files
+        filename = input(
+            'Please select one of those files or give a path to a fasta file. If leave blank script will work on first of them\n')
+        # If user give a choice, save it as a list
+        if filename:
+            files_to_compute = [filename]
+        else:
+            # Get first fasta found and try to align sequences from it
+            files_to_compute = [files_to_compute[0]]
+            print('Script will work on ' + files_to_compute[0] + '\n')
     else:
-        # Get first fasta found and try to align sequences from it
-        files_to_compute = [files_to_compute[0]]
-        print('Script will work on ' + files_to_compute[0] + '\n')
-
+        print('No files found in current directory, script will exit')
+        exit()
 
 # This function open a fasta file and extract headers and associated sequences
 
