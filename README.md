@@ -48,25 +48,28 @@ To adjust what you want from script, it is possible to add some flags to script 
 
 List of possibles arguments and their effects:
 
-    usage: python_align.py [-h] [-a] [-f FILE] [-e] [-c [THRESHOLD]] [-d] [-p]
-                       [-m] [-i]
+usage: python_align.py [-h] [-a] [-f FILE] [-g DIRECTORY] [-e]
+                   [-c [THRESHOLD]] [-d] [-p] [-m] [-i]
 
-    optional arguments:
-    -h, --help            show this help message and exit
-    -a, --all             Ask script to get all fasta files from current
-                        directory
+optional arguments:
+-h, --help            show this help message and exit
+-a, --all             Ask script to get all fasta files from current
 
-    -f FILE, --file FILE  Give a path or filename of a fasta file
-    -e, --concatenate     Concatenate graphs from different fasta files into one
-                        graph
-    -c [THRESHOLD], --threshold [THRESHOLD]
-                        Give a numeric value as threshold to select or not an
-                        alignement
-    -d, --default         Let script choose for output file and directory names
-    -p, --png             Ask to save output graph in png
-    -m, --pdf             Ask to save output graph in pdf
-    -i, --interactive     Ask to display an interactive graph in a web browser
-                        with D3.js
+                    directory
+-f FILE, --file FILE  Give a path or filename of a fasta file
+-g DIRECTORY, --directory DIRECTORY
+                    Give a path and script will compute all fasta files in
+                    this directory
+-e, --concatenate     Concatenate graphs from different fasta files into one
+                    graph
+-c [THRESHOLD], --threshold [THRESHOLD]
+                    Give a numeric value as threshold to select or not an
+                    alignement
+-d, --default         Let script choose for output file and directory names
+-p, --png             Ask to save output graph in png
+-m, --pdf             Ask to save output graph in pdf
+-i, --interactive     Ask to display an interactive graph in a web browser
+                    with D3.js
 
 
 
