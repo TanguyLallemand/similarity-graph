@@ -1,4 +1,4 @@
-name: projet-eveillard
+name: python_align
 channels:
   - defaults
 dependencies:
@@ -145,4 +145,3 @@ dependencies:
     - python-slugify==1.2.6
     - unidecode==1.0.22
 prefix: /home/storm/anaconda3/envs/projet-eveillard
-
