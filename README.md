@@ -1,12 +1,12 @@
 # Python_align
 
-Python_align is a python script permitting to construct a network graph based on similarity between different DNA sequences from a fasta file. All files necessary are accessible on this [repository](https://bitbucket.org/TanguyLallemand/python_align/src/master/)
+Python_align is a python script permitting to construct a network graph based on similarity between different DNA sequences from a fasta file. All files necessary are accessible in this [repository](https://bitbucket.org/TanguyLallemand/python_align/src/master/)
 
 
 ## Why this script is particular?
 
 
-First of all, this script allows you to save your output graphs in different formats. It is of course possible to save it in gefx but also in png or pdf. In addition, it is possible to export the data in a json file and display an output graph in a web browser via a Javascript script. This allows to have beautiful graphics managed in d3.js with possible interactions. In addition, it is then possible to implement resulting output graph in any web page. To finish, json is a format very used, easy to parse so this file can be use in many different project.
+First of all, this script allows you to save your output graphs in different formats. It is of course possible to save it in gefx but also in png or pdf. In addition, it is possible to export data in a json file and display an output graph in a web browser via a Javascript script. This allows to have beautiful graphics managed in d3.js with possible interactions. In addition, it is then possible to implement resulting output graph in any web page. To finish, json is a format very used, easy to parse so this file can be use in many different project.
 
 This script is a fully modular script so it is quite easy to change configuration following needs of a particular experience or adapt it to a bigger project.
 
@@ -26,12 +26,13 @@ First you need to create a virtual environment for this script using these lines
     conda env create -f python_align.yml # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
 
-Or you can use alternatively
+Please note that first line of the yml file sets the new environment’s name.
+You can also use alternatively:
 
     conda create --name <env> --file python_environment_used.txt # Create a conda environment
     source activate <env> # Activate this environment to execute script in it
 
-To follow, give execution rights to script and execute it
+To follow, give execution rights to script and execute it:
 
     chmod +x script_python.py
     ./script_python.py
@@ -73,7 +74,7 @@ List of possibles arguments and their effects:
 
      ./python_align.py -a -d
 
-To ask script to work on all fasta files with default configuration
+To ask script to work on all fasta files in current directory with default configuration
 
      ./python_align.py -f fasta_files/sequence.fasta -i
 
@@ -96,13 +97,13 @@ Here is some screenshots of what is possible to display in your favorite browser
 ## Some possible improvements
 
 This script is more a proof of concept than a script ready to deploy. In particular Javascript script need many improvements to be viable. In fact, resizing is not clean enough and many features are missing. Moreover, it is an adapted script found on internet with some piece of code written during my internship where I used d3.js to construct a force directed graph.
-But most important fact is that interface between the python script and javascript via a json file is fully functional.
+But most important fact is that interface between the python script and javascript via a Json file is fully functional.
 
-To finish, optimization need some improvements. In fact, if script get a fasta file with more than 15 long sequences it will take too much time to execute. In addition to that I noticed memory problems if you put a really long sequence.
+To finish, optimization need some improvements. In fact, if script get a fasta file with more than 15 long sequences it will take too much time to execute. It can be interesting to parallelize alignments. In addition to that I noticed memory problems if you put a really long sequence.
 
 ## Pairwise 2 particular configuration
 
-Python_align works based on a Biopython alignment function called Pairwise 2. This function is powerful and allows a fine configuration to meet various needs. Here is how Pairwise 2 was configured for this algorithm.
+Python_align works based on a Biopython alignment function called Pairwise 2. This function is powerful and allows a thin configuration to meet various needs. Here is how Pairwise 2 was configured for this algorithm.
 
 Pairwise permit to perform global or local alignment. For this script we choose to work using global alignments. In fact, we want to know if sequences are globally similar. Local alignments are mostly used to search for sub sequences.
 We need to configure global alignment function to perform alignment as wanted.
