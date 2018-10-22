@@ -21,8 +21,9 @@ cut_off = args.threshold
 
 # If -a or --all argument is detected, this script will search in current directory all fasta files
 if args.all:
+    directory = 'local'
     # Search for all fasta file(s) in current directory
-    files_to_compute = lib.getFastaFiles()
+    files_to_compute = lib.getFastaFiles(directory)
     if files_to_compute:
         # Verbose for user
         print('Script will work on thoses files: \n')
@@ -32,9 +33,23 @@ if args.all:
         print('\n')
 
 
+if args.directory:
+    # Save filename given as a list
+    directory = args.directory
+    # Search for all fasta file(s) in given directory
+    files_to_compute = lib.getFastaFiles(directory)
+    if files_to_compute:
+        # Verbose for user
+        print('Script will work on thoses files: \n')
+        # Print all fasta files detected
+        for files in files_to_compute:
+            print(files)
+        print('\n')
+
 if args.file:
     # Save filename given as a list
     files_to_compute = args.file
+
 
 # If no informations were passed to script, he try to get a fasta file in current directory
 if dico_fasta == {} and not files_to_compute:

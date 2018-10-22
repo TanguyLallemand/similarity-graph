@@ -15,6 +15,9 @@ def getArguments():
     # Store path or filename given as a list
     parser.add_argument(
         "-f", "--file", help="Give a path or filename of a fasta file", action='append')
+    # Store path of a directory
+    parser.add_argument(
+        "-g", "--directory", help="Give a path and script will compute all fasta files in this directory", type=str, action='store')
     parser.add_argument("-e", "--concatenate",
                         help="Concatenate graphs from different fasta files into one graph", action="store_true")
     # Wait for a number, if nothing is given add a default value
@@ -34,13 +37,18 @@ def getArguments():
 # This function search fasta files in current directory
 
 
-def getFastaFiles():
+def getFastaFiles(directory):
     # Import glob module to search files following patterns.
     # Source: https://docs.python.org/2/library/glob.html
     import glob
-    # Search for files ending with fasta extensions
-    fasta_files = glob.glob('./*.fasta')
-    fasta_files += glob.glob('./*.fa')
+    if directory == 'local':
+        # Search for files ending with fasta extensions in local directory
+        fasta_files = glob.glob('./*.fasta')
+        fasta_files += glob.glob('./*.fa')
+    else:
+        # Search for file ending with fasta extension in a given directory
+        fasta_files = glob.glob(directory + '*.fasta')
+        fasta_files += glob.glob(directory +'*.fa')
     # Return results
     return fasta_files
 
