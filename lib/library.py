@@ -61,6 +61,7 @@ def getAFastaFile():
     for files in files_to_compute:
         print(files)
     print('\n')
+    # Allows to check that files have been detected. Protection from untimely crashes
     if files_to_compute:
         # Ask user to choose between these files
         filename = input(
@@ -75,7 +76,7 @@ def getAFastaFile():
     else:
         print('No files found in current directory, script will exit')
         exit()
-
+    return files_to_compute
 # This function open a fasta file and extract headers and associated sequences
 
 

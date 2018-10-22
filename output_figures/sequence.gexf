@@ -3,7 +3,7 @@
   <graph defaultedgetype="undirected" mode="static" name="">
     <meta>
       <creator>NetworkX 2.1</creator>
-      <lastmodified>17/10/2018</lastmodified>
+      <lastmodified>22/10/2018</lastmodified>
     </meta>
     <nodes>
       <node id="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" label="M10039.1 Human alpha-type insulin gene and 5' flanking polymorphic region&#10;" />
