@@ -4,8 +4,11 @@
 
 # Library of functions for python_align.py
 
-
+###############################################################################
 # This function will prepare arguments
+# Return argument object
+###############################################################################
+
 
 def getArguments():
     import argparse
@@ -34,8 +37,11 @@ def getArguments():
     args = parser.parse_args()
     return args
 
-# This function search fasta files in current directory
 
+###############################################################################
+# This function search fasta files in current directory
+# Return list of fasta files detected
+###############################################################################
 
 def getFastaFiles(directory):
     # Import glob module to search files following patterns.
@@ -48,11 +54,14 @@ def getFastaFiles(directory):
     else:
         # Search for file ending with fasta extension in a given directory
         fasta_files = glob.glob(directory + '*.fasta')
-        fasta_files += glob.glob(directory +'*.fa')
+        fasta_files += glob.glob(directory + '*.fa')
     # Return results
     return fasta_files
 
+###############################################################################
 # This function try to get a fasta file to work on it
+# Return array of filenames to compute
+###############################################################################
 
 
 def getAFastaFile():
@@ -85,8 +94,12 @@ def getAFastaFile():
         print('No files found in current directory, script will exit')
         exit()
     return files_to_compute
-# This function open a fasta file and extract headers and associated sequences
 
+
+###############################################################################
+# This function open a fasta file and extract headers and associated sequences
+# Return a dictionary containing all datas from fasta file
+###############################################################################
 
 def getFasta(file):
     # Open in read only a file given in argument
@@ -107,8 +120,10 @@ def getFasta(file):
     # Return a dictionary containing all datas from fasta file
     return(fastas)
 
-
-# This function align sequences by pair using pairwise 2 and save score of this alignment. It will return a dictionary containing names of sequences aligned and associated score
+###############################################################################
+# This function align sequences by pair using pairwise 2 and save score of this alignment.
+# It will return a dictionary containing names of sequences aligned and associated score
+###############################################################################
 
 
 def alignSequences(dico_fasta, args, name_of_file, cut_off):
@@ -150,16 +165,18 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
     # Return dictionary containing results
     return [nodes, edges]
 
-
+###############################################################################
 # Function to create a graph from reliable alignments results
 # Return a graph object
-# Understanding package:
-#   Source: https://networkx.github.io/documentation/stable/index.html
-# Improve appearance:
-#   Source: https://python-graph-gallery.com/321-custom-networkx-graph-appearance/
+###############################################################################
 
 
 def createGraph(nodes, edges):
+    # Understanding package:
+    #   Source: https://networkx.github.io/documentation/stable/index.html
+    # Improve appearance:
+    #   Source: https://python-graph-gallery.com/321-custom-networkx-graph-appearance/
+
     from networkx.drawing.nx_agraph import graphviz_layout
     import networkx as nx
     import numpy as np
@@ -202,8 +219,9 @@ def createGraph(nodes, edges):
     return G
 
 
+###############################################################################
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
-
+###############################################################################
 
 def displayAndSaveGraph(args, name_of_file, cut_off, G):
     import matplotlib.pyplot as plt
@@ -275,8 +293,10 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
             # Reset graph in case of a second graph coming
             plt.gcf().clear()
 
-
+###############################################################################
 # Function permitting to create a directory following user's instructions
+# Return path of created directory
+###############################################################################
 
 
 def createDirectory(directory_choice, name):
@@ -302,8 +322,10 @@ def createDirectory(directory_choice, name):
     my_path = os.path.join(my_path, name)
     return my_path
 
-
+###############################################################################
 # This function permit to create an output file using G object from networkX and a path. This function will return path where file was created
+# Return path of saved graph
+###############################################################################
 
 
 def createOutputGraph(my_path, args, G):
@@ -324,7 +346,9 @@ def createOutputGraph(my_path, args, G):
             print('Can\'t save graph \n')
     return my_path
 
+###############################################################################
 # This function will create a json using G object from networkX
+###############################################################################
 
 
 def createJSON(G, width, height, title):
@@ -345,6 +369,10 @@ def createJSON(G, width, height, title):
         jsonFile.write(json.dumps(data, indent=4))
 
     print('Json saved in ./export_in_d3/network_graph_data.json \n')
+
+###############################################################################
+# This function permit to open a web browser to display json datas
+###############################################################################
 
 
 def displayD3(name):
