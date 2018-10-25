@@ -38,6 +38,16 @@ To follow, give execution rights to script and execute it:
     ./script_python.py
 
 If you prefer, just run setup.sh to create environment called python_align and execute this script giving sequence.fasta and using default configuration
+
+### Decoupe des fichiers et emplacement des fonctions
+
+L'ensemble des fonctions ecrites pour ce projet ont été placés dans des fichiers av=fin de facilité la relecture ou la prise en main du code. Cette modularité permet de reprendre qu'une partie du code si besoin. Voici comment les fonctions ont été reparties:
+
+    - argument_parsing.py contient la fonction getArguments() permettant l'intialisation des différents arguments du script
+    - fasta_gestion.py va regrouper les fonctions gérant les fichiers fasta de leurs recherche à leur analyse.
+    - graph_gestion.py va permettre la génération d'un graphe via networkX ainsi que sa customisation
+    - web_browser_export.py va regrouper les fonctions nécessaire a l'exportation du graphe interactif c'est à dire via la génération d'un fichier Json et l'ouverture d'un navigateur web
+    
 ## Use this script
 
 You can call this script with different flags
@@ -120,12 +130,12 @@ For calculate score supplementary parameters were added.
   - Opening Gap: -0.5
   - Extending Gap: -0.1
 
-
 ## Built With
 
 -   [Anaconda](https://www.anaconda.com/) - Environment management
 -   [Networkx](https://networkx.github.io/) - Python library used to generate network graph
 -   [Force Directed Graph by Martin Chorley](https://bl.ocks.org/martinjc/7aa53c7bf3e411238ac8aef280bd6581) - A force directed graph built with D3.js
+
 ## Author
 
 -   **Tanguy Lallemand**, M2BB
