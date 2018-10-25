@@ -47,7 +47,7 @@ L'ensemble des fonctions ecrites pour ce projet ont été placés dans des fichi
     - fasta_gestion.py va regrouper les fonctions gérant les fichiers fasta de leurs recherche à leur analyse.
     - graph_gestion.py va permettre la génération d'un graphe via networkX ainsi que sa customisation
     - web_browser_export.py va regrouper les fonctions nécessaire a l'exportation du graphe interactif c'est à dire via la génération d'un fichier Json et l'ouverture d'un navigateur web
-    
+
 ## Use this script
 
 You can call this script with different flags
