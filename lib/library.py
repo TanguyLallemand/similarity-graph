@@ -52,7 +52,6 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
     return [nodes, edges]
 
 
-
 ###############################################################################
 # Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
 ###############################################################################

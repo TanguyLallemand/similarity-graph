@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# Author: Tanguy Lallemand M2 BB
+
+# Library of function for handling with web exportation in python_align project
+
 ###############################################################################
 # This function will create a json using G object from networkX
 ###############################################################################

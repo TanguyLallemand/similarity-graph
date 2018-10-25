@@ -39,14 +39,14 @@ To follow, give execution rights to script and execute it:
 
 If you prefer, just run setup.sh to create environment called python_align and execute this script giving sequence.fasta and using default configuration
 
-### Decoupe des fichiers et emplacement des fonctions
+### Splitting files and location of functions
 
-L'ensemble des fonctions ecrites pour ce projet ont été placés dans des fichiers av=fin de facilité la relecture ou la prise en main du code. Cette modularité permet de reprendre qu'une partie du code si besoin. Voici comment les fonctions ont été reparties:
+All the functions written for this project have been placed in av=fin files to make it easier to review or familiarize yourself with the code. This modularity makes it possible to use only part of the code if necessary. Here is how the functions were distributed:
 
-    - argument_parsing.py contient la fonction getArguments() permettant l'intialisation des différents arguments du script
-    - fasta_gestion.py va regrouper les fonctions gérant les fichiers fasta de leurs recherche à leur analyse.
-    - graph_gestion.py va permettre la génération d'un graphe via networkX ainsi que sa customisation
-    - web_browser_export.py va regrouper les fonctions nécessaire a l'exportation du graphe interactif c'est à dire via la génération d'un fichier Json et l'ouverture d'un navigateur web
+- argument_parsing.py contains the function getArguments() allowing the initialization of the different arguments of the script
+- fasta_gestion.py will group the functions managing fasta files from their search to their parsing.
+- graph_gestion.py will allow the generation of a graph via networkX as well as its customization
+- web_browser_export.py will group together functions necessary to export the interactive graph, notably via generation of a Json file and the opening of a web browser
 
 ## Use this script
 

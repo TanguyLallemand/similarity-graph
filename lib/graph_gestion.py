@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# Author: Tanguy Lallemand M2 BB
+
+# Library of function for handling with output graph in python_align project
+
 ###############################################################################
 # Function to create a graph from reliable alignments results
 # Return a graph object
