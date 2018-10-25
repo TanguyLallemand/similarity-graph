@@ -75,7 +75,9 @@ for file in files_to_compute:
 
     # Create a networkX graph object
     G = lib.createGraph(nodes, edges)
+    # Custom graph by adding title and resizing it
+    lib.customGraph(file, cut_off)
     # Function that will save and display graph as user ask. Script will give informations for user
-    lib.displayAndSaveGraph(args, file, cut_off, G)
+    lib.displayAndSaveGraph(args, file, G)
 
 print('Job done, script will exit')

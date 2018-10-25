@@ -219,11 +219,7 @@ def createGraph(nodes, edges):
     return G
 
 
-###############################################################################
-# Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
-###############################################################################
-
-def displayAndSaveGraph(args, name_of_file, cut_off, G):
+def customGraph(name_of_file, cut_off):
     import matplotlib.pyplot as plt
     import re
     import os
@@ -242,6 +238,18 @@ def displayAndSaveGraph(args, name_of_file, cut_off, G):
     height, width = plt.gcf().get_size_inches()
     # Double height and width of graph
     plt.gcf().set_size_inches(height * 2, width * 2)
+
+
+###############################################################################
+# Function to help user to choose what he want to do with graph. This function permit to save graph as a pdf file too.
+###############################################################################
+
+
+def displayAndSaveGraph(args, name_of_file, G):
+    import matplotlib.pyplot as plt
+    import re
+    import os
+
     # Check if user ask for default configuration
     if args.default:
         # Give a default directory name
