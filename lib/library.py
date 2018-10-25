@@ -1,124 +1,10 @@
-#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
 # Library of functions for python_align.py
 
-###############################################################################
-# This function will prepare arguments
-# Return argument object
-###############################################################################
+from lib import web_browser_export as webexport
 
-
-def getArguments():
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-a", "--all", help="Ask script to get all fasta files from current directory", action="store_true")
-    # Store path or filename given as a list
-    parser.add_argument(
-        "-f", "--file", help="Give a path or filename of a fasta file", action='append')
-    # Store path of a directory
-    parser.add_argument(
-        "-g", "--directory", help="Give a path and script will compute all fasta files in this directory", type=str, action='store')
-    parser.add_argument("-e", "--concatenate",
-                        help="Concatenate graphs from different fasta files into one graph", action="store_true")
-    # Wait for a number, if nothing is given add a default value
-    parser.add_argument("-c", "--threshold", help="Give a numeric value as threshold to select or not an alignement",
-                        type=float, nargs='?', default=100)
-    parser.add_argument(
-        "-d", "--default", help="Let script choose for output file and directory names", action="store_true")
-    parser.add_argument(
-        "-p", "--png", help="Ask to save output graph in png", action="store_true")
-    parser.add_argument(
-        "-m", "--pdf", help="Ask to save output graph in pdf", action="store_true")
-    parser.add_argument("-i", "--interactive",
-                        help="Ask to display an interactive graph in a web browser with D3.js", action="store_true")
-    args = parser.parse_args()
-    return args
-
-
-###############################################################################
-# This function search fasta files in current directory
-# Return list of fasta files detected
-###############################################################################
-
-def getFastaFiles(directory):
-    # Import glob module to search files following patterns.
-    # Source: https://docs.python.org/2/library/glob.html
-    import glob
-    if directory == 'local':
-        # Search for files ending with fasta extensions in local directory
-        fasta_files = glob.glob('./*.fasta')
-        fasta_files += glob.glob('./*.fa')
-    else:
-        # Search for file ending with fasta extension in a given directory
-        fasta_files = glob.glob(directory + '*.fasta')
-        fasta_files += glob.glob(directory + '*.fa')
-    # Return results
-    return fasta_files
-
-###############################################################################
-# This function try to get a fasta file to work on it
-# Return array of filenames to compute
-###############################################################################
-
-
-def getAFastaFile():
-    # Module permitting to get current directory
-    import os
-    # Get path where script is executed
-    cwd = os.getcwd()
-    # Inform user what script will do
-    print('You don\'t ask for anything, script will display all fasta files from current directory ' + cwd + '\n')
-    # Try to get a fasta file from current directory
-    files_to_compute = getFastaFiles()
-    print('Script found these files in directory \n')
-    # Print all fasta files detected
-    for files in files_to_compute:
-        print(files)
-    print('\n')
-    # Allows to check that files have been detected. Protection from untimely crashes
-    if files_to_compute:
-        # Ask user to choose between these files
-        filename = input(
-            'Please select one of those files or give a path to a fasta file. If leave blank script will work on first of them\n')
-        # If user give a choice, save it as a list
-        if filename:
-            files_to_compute = [filename]
-        else:
-            # Get first fasta found and try to align sequences from it
-            files_to_compute = [files_to_compute[0]]
-            print('Script will work on ' + files_to_compute[0] + '\n')
-    else:
-        print('No files found in current directory, script will exit')
-        exit()
-    return files_to_compute
-
-
-###############################################################################
-# This function open a fasta file and extract headers and associated sequences
-# Return a dictionary containing all datas from fasta file
-###############################################################################
-
-def getFasta(file):
-    # Open in read only a file given in argument
-    with open(file, 'r') as fasta_file:
-        # Initialize a dictionary that will contain all data extracted from a file
-        fastas = {}
-        # Read line by line opened file
-        for line in fasta_file:
-            # Check if '>' character is present to check if line is a header or a sequence
-            if line[0] == '>':
-                # Get first line of header containing name, no need to save quality information etc...
-                header = line[1:]
-                # Intialize a new entry in dictionary with header as key and a empty value
-                fastas[header] = ''
-            else:
-                # Get sequence associated to header and stock it in dictionary previously initialized
-                fastas[header] += line
-    # Return a dictionary containing all datas from fasta file
-    return(fastas)
 
 ###############################################################################
 # This function align sequences by pair using pairwise 2 and save score of this alignment.
@@ -165,79 +51,6 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
     # Return dictionary containing results
     return [nodes, edges]
 
-###############################################################################
-# Function to create a graph from reliable alignments results
-# Return a graph object
-###############################################################################
-
-
-def createGraph(nodes, edges):
-    # Understanding package:
-    #   Source: https://networkx.github.io/documentation/stable/index.html
-    # Improve appearance:
-    #   Source: https://python-graph-gallery.com/321-custom-networkx-graph-appearance/
-
-    from networkx.drawing.nx_agraph import graphviz_layout
-    import networkx as nx
-    import numpy as np
-    # Creation of a graph object
-    G = nx.Graph()
-    # Add nodes
-    G.add_nodes_from(nodes)
-    # Add links between nodes
-    G.add_weighted_edges_from(edges)
-    # Determine strong weights. Helped by: https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_weighted_graph.html
-    # Arbitrary choose a score above 16 is seen as a strong link. Must be changed. This function is not so much usefull in many case but can be tweak by user following his dataset to become useful.
-    strong_edge = [(u, v)
-                   for (u, v, d) in G.edges(data=True) if d['weight'] > 16]
-    weak_edge = [(u, v)
-                 for (u, v, d) in G.edges(data=True) if d['weight'] <= 15]
-
-    # Get nodes positions, using graphviz_layout rather than spring_layout(). It permit to have less overlap or non aesthetic spaces. Moreover, different layout programs can be used. We choose neato. This permit to generate "spring model" layouts. This layout program is good for small networks (less than 100 nodes). Neato will attempt to minimize a global energy function, permitting multi-dimensional scaling.
-    # Source: https://stackoverflow.com/questions/48240021/alter-edge-length-and-cluster-spacing-in-networkx-matplotlib-force-graph
-    pos = graphviz_layout(G, prog='neato')
-    # Draw nodes
-    nx.draw_networkx_nodes(G, pos, node_size=25, node_color="teal",
-                           node_shape="s", alpha=0.5, linewidths=30, label=True)
-    # Draw edges
-    # Edge for strong links
-    nx.draw_networkx_edges(G, pos, edgelist=strong_edge, with_labels=True, width=5,
-                           edge_color="silver", style="solid", alpha=0.8)
-    # Edge for weak links
-    nx.draw_networkx_edges(G, pos, edgelist=weak_edge, with_labels=True, width=5,
-                           edge_color="silver", style="dashed", alpha=0.5)
-    # Permit to save score as labels for edges
-    labels = nx.get_edge_attributes(G, 'weight')
-    # Add score on graph
-    nx.draw_networkx_edge_labels(
-        G, pos, font_size=9, alpha=0.5, font_color='black', edge_labels=labels)
-    # Write names of sequences
-    nx.draw_networkx_labels(G, pos, node_size=100,
-                            font_size=6, font_color="grey", font_weight="bold")
-
-    # Return graph object constructed
-    return G
-
-
-def customGraph(name_of_file, cut_off):
-    import matplotlib.pyplot as plt
-    import re
-    import os
-
-    # Hide axis on output graph
-    plt.axis('off')
-    # Generate a title
-    title = 'Graph of similarity of sequences from ' + name_of_file + \
-        ' aligned with Pairwise 2 and filtered with a treshold of: ' + \
-            str(cut_off)
-    # Add a title
-    plt.title(title)
-
-    # Get height and width of graph
-    # Source: https://scipy.github.io/old-wiki/pages/Cookbook/Matplotlib/AdjustingImageSize.html
-    height, width = plt.gcf().get_size_inches()
-    # Double height and width of graph
-    plt.gcf().set_size_inches(height * 2, width * 2)
 
 
 ###############################################################################
@@ -283,7 +96,7 @@ def displayAndSaveGraph(args, name_of_file, G):
     if args.interactive:
         width = width * 2
         height = height * 2
-        createJSON(G, width, height, title)
+        webexport.createJSON(G, width, height, title)
         response = input('Do you want to display it in your browser? (y|n)\n')
         if response == 'y':
             name = 'export_in_d3/network_graph.html'
@@ -353,40 +166,3 @@ def createOutputGraph(my_path, args, G):
         except:
             print('Can\'t save graph \n')
     return my_path
-
-###############################################################################
-# This function will create a json using G object from networkX
-###############################################################################
-
-
-def createJSON(G, width, height, title):
-    import json
-    from networkx.readwrite import json_graph
-
-    # Prepare data to write in jsonFile
-    data = {}
-    # Add output graph's title
-    data['title'] = title
-    # Add graph informations to object in construction
-    data.update(json_graph.node_link_data(G))
-    # write json formatted data
-    # Source : https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.node_link_data.html#networkx.readwrite.json_graph.node_link_data
-    # Open in write mode json file
-    with open('export_in_d3/network_graph_data.json', 'w') as jsonFile:
-        # Write data in json file
-        jsonFile.write(json.dumps(data, indent=4))
-
-    print('Json saved in ./export_in_d3/network_graph_data.json \n')
-
-###############################################################################
-# This function permit to open a web browser to display json datas
-###############################################################################
-
-
-def displayD3(name):
-
-    # Source: https://stackoverflow.com/questions/22004498/webbrowser-open-in-python
-    # Open network_graph.html with a web browser to display network graph using JavaScript
-    import webbrowser
-    import os
-    webbrowser.open('file://' + os.path.realpath(name))
