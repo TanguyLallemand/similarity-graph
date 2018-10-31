@@ -10,6 +10,7 @@ from lib import argument_parsing as arglib
 from lib import fasta_gestion as faslib
 from lib import graph_gestion as graphlib
 
+
 # Initialization of some variables
 filename = ''
 files_to_compute = ''
@@ -33,7 +34,10 @@ if args.all:
         for files in files_to_compute:
             print(files)
         print('\n')
-
+    else:
+        import sys
+        print('The script does not find fasta files, please execute the script with different settings')
+        sys.exit()
 
 if args.directory:
     # Save filename given as a list
