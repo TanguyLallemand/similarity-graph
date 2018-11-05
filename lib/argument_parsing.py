@@ -15,12 +15,13 @@ def getArguments():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-a", "--all", help="Ask script to get all fasta files from current directory", action="store_true")
-    # Store path or filename given as a list
+    # Store path or filename of a fasta file given as a list
     parser.add_argument(
         "-f", "--file", help="Give a path or filename of a fasta file", action='append')
     # Store path of a directory
     parser.add_argument(
         "-g", "--directory", help="Give a path and script will compute all fasta files in this directory", type=str, action='store')
+        # Ask script to concatenate alignements from different files into one graph
     parser.add_argument("-e", "--concatenate",
                         help="Concatenate graphs from different fasta files into one graph", action="store_true")
     # Wait for a number, if nothing is given add a default value

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Author: Tanguy Lallemand M2 BB
 
-# Library of function for handling with web exportation in python_align project
+# Library of function for handling with web interaction in python_align project
 
 ###############################################################################
 # This function will create a json using G object from networkX
@@ -38,4 +38,5 @@ def displayD3(name):
     # Open network_graph.html with a web browser to display network graph using JavaScript
     import webbrowser
     import os
+    # Open network_graph.html with default web browser
     webbrowser.open('file://' + os.path.realpath(name))

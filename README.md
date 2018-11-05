@@ -112,7 +112,7 @@ Here is some screenshots of what is possible to display in your favorite browser
 This script is more a proof of concept than a script ready to deploy. In particular Javascript script need many improvements to be viable. In fact, resizing is not clean enough and many features are missing. Moreover, it is an adapted script found on internet with some piece of code written during my internship where I used d3.js to construct a force directed graph.
 But most important fact is that interface between the python script and javascript via a Json file is fully functional.
 
-To finish, optimization need some improvements. In fact, if script get a fasta file with more than 15 long sequences it will take too much time to execute. It can be interesting to parallelize alignments. In addition to that I noticed memory problems if you put a really long sequence.
+To finish, optimization need some improvements. In fact, if script get a fasta file with more than 15 long sequences it will take too much time to execute. It can be interesting to parallelize alignments. In addition to that I noticed memory problems if you put a really long sequence. To reduce thoses problems I think we need to reconsider how fasta's datas are parsed and stored as well as graph object.
 
 ## Pairwise 2 particular configuration
 
