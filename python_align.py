@@ -38,7 +38,7 @@ if args.all:
         import sys
         print('The script does not find fasta files, please execute the script with different settings')
         sys.exit()
-
+#If user ask for work on all file of a particular directory, enter in this conditionnal
 if args.directory:
     # Save filename given as a list
     directory = args.directory
@@ -51,7 +51,7 @@ if args.directory:
         for files in files_to_compute:
             print(files)
         print('\n')
-
+#If user give a filename or a path. Could may be improved using argument_parsing function
 if args.file:
     # Save filename given as a list
     files_to_compute = args.file
