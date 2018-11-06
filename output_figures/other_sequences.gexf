@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf version="1.2" xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static" name="">
+    <meta>
+      <creator>NetworkX 2.1</creator>
+      <lastmodified>06/11/2018</lastmodified>
+    </meta>
+    <nodes>
+      <node id="random sequence 1 consisting of 250 bases.&#10;" label="random sequence 1 consisting of 250 bases.&#10;" />
+      <node id="random sequence 2 consisting of 250 bases.&#10;" label="random sequence 2 consisting of 250 bases.&#10;" />
+      <node id="random sequence 3 consisting of 250 bases.&#10;" label="random sequence 3 consisting of 250 bases.&#10;" />
+      <node id="random sequence 4 consisting of 250 bases.&#10;" label="random sequence 4 consisting of 250 bases.&#10;" />
+      <node id="random sequence 5 consisting of 250 bases.&#10;" label="random sequence 5 consisting of 250 bases.&#10;" />
+      <node id="random sequence 6 consisting of 250 bases.&#10;" label="random sequence 6 consisting of 250 bases.&#10;" />
+      <node id="random sequence 7 consisting of 250 bases.&#10;" label="random sequence 7 consisting of 250 bases.&#10;" />
+      <node id="random sequence 8 consisting of 250 bases.&#10;" label="random sequence 8 consisting of 250 bases.&#10;" />
+      <node id="random sequence 9 consisting of 250 bases.&#10;" label="random sequence 9 consisting of 250 bases.&#10;" />
+      <node id="random sequence 10 consisting of 250 bases.&#10;" label="random sequence 10 consisting of 250 bases.&#10;" />
+    </nodes>
+    <edges>
+      <edge id="0" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 2 consisting of 250 bases.&#10;" weight="268.8" />
+      <edge id="1" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 3 consisting of 250 bases.&#10;" weight="274.8" />
+      <edge id="2" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 4 consisting of 250 bases.&#10;" weight="273.8" />
+      <edge id="3" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 5 consisting of 250 bases.&#10;" weight="262.0" />
+      <edge id="4" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 6 consisting of 250 bases.&#10;" weight="281.6" />
+      <edge id="5" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="262.4" />
+      <edge id="6" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="270.8" />
+      <edge id="7" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="270.8" />
+      <edge id="8" source="random sequence 1 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="265.9" />
+      <edge id="9" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 3 consisting of 250 bases.&#10;" weight="267.6" />
+      <edge id="10" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 4 consisting of 250 bases.&#10;" weight="276.0" />
+      <edge id="11" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 5 consisting of 250 bases.&#10;" weight="260.8" />
+      <edge id="12" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 6 consisting of 250 bases.&#10;" weight="266.4" />
+      <edge id="13" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="270.4" />
+      <edge id="14" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="262.8" />
+      <edge id="15" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="264.0" />
+      <edge id="16" source="random sequence 2 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="275.1" />
+      <edge id="17" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 4 consisting of 250 bases.&#10;" weight="262.2" />
+      <edge id="18" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 5 consisting of 250 bases.&#10;" weight="256.6" />
+      <edge id="19" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 6 consisting of 250 bases.&#10;" weight="261.0" />
+      <edge id="20" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="274.4" />
+      <edge id="21" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="264.0" />
+      <edge id="22" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="267.8" />
+      <edge id="23" source="random sequence 3 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="255.9" />
+      <edge id="24" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 5 consisting of 250 bases.&#10;" weight="257.8" />
+      <edge id="25" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 6 consisting of 250 bases.&#10;" weight="278.2" />
+      <edge id="26" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="261.8" />
+      <edge id="27" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="262.6" />
+      <edge id="28" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="264.0" />
+      <edge id="29" source="random sequence 4 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="263.9" />
+      <edge id="30" source="random sequence 5 consisting of 250 bases.&#10;" target="random sequence 6 consisting of 250 bases.&#10;" weight="261.4" />
+      <edge id="31" source="random sequence 5 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="261.8" />
+      <edge id="32" source="random sequence 5 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="263.8" />
+      <edge id="33" source="random sequence 5 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="267.8" />
+      <edge id="34" source="random sequence 5 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="258.3" />
+      <edge id="35" source="random sequence 6 consisting of 250 bases.&#10;" target="random sequence 7 consisting of 250 bases.&#10;" weight="270.2" />
+      <edge id="36" source="random sequence 6 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="266.2" />
+      <edge id="37" source="random sequence 6 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="269.8" />
+      <edge id="38" source="random sequence 6 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="271.1" />
+      <edge id="39" source="random sequence 7 consisting of 250 bases.&#10;" target="random sequence 8 consisting of 250 bases.&#10;" weight="279.2" />
+      <edge id="40" source="random sequence 7 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="265.2" />
+      <edge id="41" source="random sequence 7 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="267.9" />
+      <edge id="42" source="random sequence 8 consisting of 250 bases.&#10;" target="random sequence 9 consisting of 250 bases.&#10;" weight="274.6" />
+      <edge id="43" source="random sequence 8 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="261.3" />
+      <edge id="44" source="random sequence 9 consisting of 250 bases.&#10;" target="random sequence 10 consisting of 250 bases.&#10;" weight="263.7" />
+    </edges>
+  </graph>
+</gexf>
