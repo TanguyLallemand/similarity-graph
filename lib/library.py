@@ -57,7 +57,7 @@ def alignSequences(dico_fasta, args, name_of_file, cut_off):
 ###############################################################################
 
 
-def displayAndSaveGraph(args, name_of_file, G):
+def displayAndSaveGraph(args, name_of_file, G, width, height, title):
     import matplotlib.pyplot as plt
     import re
     import os
@@ -99,7 +99,7 @@ def displayAndSaveGraph(args, name_of_file, G):
         response = input('Do you want to display it in your browser? (y|n)\n')
         if response == 'y':
             name = 'export_in_d3/network_graph.html'
-            displayD3(name)
+            webexport.displayD3(name)
     else:
         # User can display immediately graph if desired
         choice = input('Graph {} saved successfully in {} \nDo you want to display graph? (y|n) \n'.format(

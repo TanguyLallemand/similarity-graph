@@ -80,3 +80,4 @@ def customGraph(name_of_file, cut_off):
     height, width = plt.gcf().get_size_inches()
     # Double height and width of graph
     plt.gcf().set_size_inches(height * 2, width * 2)
+    return [width, height, title]

@@ -82,8 +82,8 @@ for file in files_to_compute:
     # Create a networkX graph object
     G = graphlib.createGraph(nodes, edges)
     # Custom graph by adding title and resizing it
-    graphlib.customGraph(file, cut_off)
+    width_and_height = graphlib.customGraph(file, cut_off)
     # Function that will save and display graph as user ask. Script will give informations for user
-    lib.displayAndSaveGraph(args, file, G)
+    lib.displayAndSaveGraph(args, file, G, width_and_height[0], width_and_height[1], width_and_height[2])
 
 print('Job done, script will exit')
