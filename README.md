@@ -81,6 +81,7 @@ List of possibles arguments and their effects:
     -i, --interactive     Ask to display an interactive graph in a web browser
                         with D3.js
 
+It should be noted that argument -i cannot be called with -e or -a. Likewise, -a and -f since it would be meaningless
 
 
 ### Examples of call:
