@@ -102,7 +102,7 @@ To ask script to work on all fasta files in current directory with default confi
 
 This repository contain some examples of expected output graph. They were generated using 'sequences.fasta' and 'test.fasta'. Output graph can be saved using different format such as gexf, png or pdf.
 Here is an example of an output graph:
-![Output Example sequences in png](output_figures/sequence.png)
+![Output Example sequences in png](output_figures/sequences.png)
 
 Moreover, it is possible to ask script to generate a Json file that will be used by a script written in JavaScript to display an interactive version of graph.
 Here is some screenshots of what is possible to display in your favorite browser. You can display entire graph or just highlight links from a particular node.
